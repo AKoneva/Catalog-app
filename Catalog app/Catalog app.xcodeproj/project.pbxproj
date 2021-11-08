@@ -25,6 +25,7 @@
 		FA97934127387BB3003C5F89 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA97934027387BB3003C5F89 /* Profile.storyboard */; };
 		FA97934227387DA0003C5F89 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950C92735A2DC0077B17A /* ProfileViewController.swift */; };
 		FA9793442738809E003C5F89 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9793432738809E003C5F89 /* ImagePicker.swift */; };
+		FA979347273929A8003C5F89 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */; };
 		FA9EB5142737EE4300AD2D2E /* AddCommentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EB5132737EE4300AD2D2E /* AddCommentPopupViewController.swift */; };
 		FAF950D02735A5DD0077B17A /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950CF2735A5DD0077B17A /* ProductTableViewCell.swift */; };
 		FAF950D52735A6020077B17A /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950D42735A6020077B17A /* CommentTableViewCell.swift */; };
@@ -50,6 +51,7 @@
 		FA42B2AF2734394A00B0CD8A /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		FA97934027387BB3003C5F89 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		FA9793432738809E003C5F89 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		FA9EB5132737EE4300AD2D2E /* AddCommentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentPopupViewController.swift; sourceTree = "<group>"; };
 		FAF950C92735A2DC0077B17A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FAF950CF2735A5DD0077B17A /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
@@ -142,11 +144,20 @@
 		FA97933F27387B90003C5F89 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				FA9793452739243D003C5F89 /* Change password */,
 				FAF950C92735A2DC0077B17A /* ProfileViewController.swift */,
 				FA97934027387BB3003C5F89 /* Profile.storyboard */,
 				FA9793432738809E003C5F89 /* ImagePicker.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		FA9793452739243D003C5F89 /* Change password */ = {
+			isa = PBXGroup;
+			children = (
+				FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */,
+			);
+			path = "Change password";
 			sourceTree = "<group>";
 		};
 		FA9EB5102737EDFB00AD2D2E /* Cell */ = {
@@ -268,6 +279,7 @@
 				FA42B288273404CB00B0CD8A /* testTask_ProductCatalog.xcdatamodeld in Sources */,
 				FA42B2B02734394A00B0CD8A /* ResetPasswordViewController.swift in Sources */,
 				FAF950D52735A6020077B17A /* CommentTableViewCell.swift in Sources */,
+				FA979347273929A8003C5F89 /* ChangePasswordViewController.swift in Sources */,
 				FA42B280273404CB00B0CD8A /* SceneDelegate.swift in Sources */,
 				FA9793442738809E003C5F89 /* ImagePicker.swift in Sources */,
 				FA9EB5142737EE4300AD2D2E /* AddCommentPopupViewController.swift in Sources */,

@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
     @IBOutlet weak var passwordValidationErrorsLabel: UILabel!
     
-    
+//    var isHidden = false
     private var isAuthorized = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,7 @@ class LoginViewController: UIViewController {
         
         loginButton.layer.cornerRadius = 6
         skipButton.layer.cornerRadius = 6
+//        skipButton.isHidden = isHidden
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

@@ -30,7 +30,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var editView: UIView!
     @IBOutlet weak var saveButton: UIButton!
     
-   private var imagePicker = UIImagePickerController()
+    private var imagePicker = UIImagePickerController()
+    private var isAuthotized = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,11 +40,6 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        editEmailTextField.delegate = self
-        editNameTextField.delegate = self
-        editNameTextField.tag = 1
-        editEmailTextField.tag = 2
         
         configureView()
     }
@@ -56,8 +52,30 @@ class ProfileViewController: UIViewController {
         
         editPhotoButton.layer.cornerRadius = 5
         changePasswordButton.layer.cornerRadius = 5
+        saveButton.layer.cornerRadius = 5
         
+        editEmailTextField.delegate = self
+        editNameTextField.delegate = self
+        editNameTextField.tag = 1
+        editEmailTextField.tag = 2
+        
+        if isAuthotized {
+            avatarImageView.image  = #imageLiteral(resourceName: "photo_2021-10-19 12.59.08")
+            nameLabel.text = "Anna Perekhrest"
+            numberOfCommentsLabel.text = "23"
+            emailLabel.text = "annaperekhrest@gmail.com"
+        }
+        else {
+            avatarImageView.image  = #imageLiteral(resourceName: "noPhotoIcon")
+            nameLabel.text = "Unknown"
+            numberOfCommentsLabel.text = "0"
+            emailLabel.text = ""
+            changePasswordButton.isHidden = true
+            editeProfileButton.isHidden = true
+            logOutButton.setTitle("Log in", for: .normal)
+        }
     }
+
     
     @IBAction func editProfileButtonTapped(_ sender: Any) {
         editNameTextField.text = nameLabel.text
@@ -82,9 +100,18 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
+       showLogin()
     }
     
-    
+    func showLogin()  {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let secondVC = storyboard.instantiateViewController(identifier: "login")
+        
+        secondVC.modalPresentationStyle = .fullScreen
+        secondVC.modalTransitionStyle = .crossDissolve
+        
+        present(secondVC, animated: true, completion: nil)
+    }
     
     @objc func keyboardWillShow(notification: NSNotification) {
        self.view.frame.origin.y = 0 - 150

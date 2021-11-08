@@ -30,8 +30,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
         emailTextField.delegate = self
         passwordTextField.delegate = self
         confirmPasswordTextField.delegate = self
@@ -44,15 +43,15 @@ class SignUpViewController: UIViewController {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
-//        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-//            return
-//        }
+        //        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        //            return
+        //        }
         
         self.view.frame.origin.y = 0 - 150//- keyboardSize.height
     }
@@ -88,29 +87,18 @@ class SignUpViewController: UIViewController {
         return false
     }
     
-    func validatePassword(enteredPassword: String?, type: String) -> Bool {
+    func validatePassword(enteredPassword: String?) -> Bool {
         
         guard enteredPassword != nil && enteredPassword != "" else {
-            if type == "pass" {
-                passwordValidationLabel.text = "Please, input your password"
-                passwordValidationStack.isHidden = false
-            }
-            else {
-                passwordValidationErrorsLabel.text = "Please, input your password"
-                passwordValidationErrorStack.isHidden = false
-            }
+            passwordValidationLabel.text = "Please, input your password"
+            passwordValidationStack.isHidden = false
             return false
         }
         
-        if  passwordTextField.text?.count ?? 0 < 4 {
-            if type == "pass" {
-                passwordValidationLabel.text = "Password must be at least 4 symbols"
-                passwordValidationStack.isHidden = false
-            }
-            else {
-                passwordValidationErrorsLabel.text = "Password must be at least 4 symbols"
-                passwordValidationErrorStack.isHidden = false
-            }
+        if  enteredPassword?.count ?? 0 < 4 {
+            
+            passwordValidationLabel.text = "Password must be at least 4 symbols"
+            passwordValidationStack.isHidden = false
             return false
         }
         else {
@@ -143,18 +131,16 @@ class SignUpViewController: UIViewController {
         else {
             switchErrorsLabel.text = "You have to agree with terms and privacy policy to continue"
             switchErrorsStack.isHidden = false
-            showErrorAlert(text: "Please, check if the data is correct")
+            showErrorAlert(title: "Warning", text: "Please, check if the data is correct")
             return false
         }
         if emailValidationErrorStack.isHidden == false || passwordValidationStack.isHidden == false || passwordValidationErrorStack.isHidden ==  false ||  switchErrorsStack.isHidden == false  {
-            let alert = UIAlertController(title: "Error", message: "Please, check if the data is correct", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-            showErrorAlert(text: "Please, check if the data is correct")
+            
+            showErrorAlert(title: "Warning", text: "Please, check if the data is correct")
             return false
         }
         else  if emailTextField.text == nil || passwordTextField.text == nil || confirmPasswordTextField.text == nil || emailTextField.text == "" || passwordTextField.text == "" || confirmPasswordTextField.text == "" {
-            showErrorAlert(text: "Please, fill data to create an account")
+            showErrorAlert(title: "Warning", text: "Please, fill data to create an account")
             return false
         }
         else {
@@ -163,8 +149,8 @@ class SignUpViewController: UIViewController {
         
     }
     
-    func showErrorAlert(text: String) {
-        let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
+    func showErrorAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
@@ -224,7 +210,7 @@ extension SignUpViewController: UITextFieldDelegate {
                 emailValidationErrorStack.isHidden = true
             }
         case 2:
-            if validatePassword(enteredPassword: passwordTextField.text, type: "pass") {
+            if validatePassword(enteredPassword: passwordTextField.text) {
                 passwordValidationStack.isHidden = true
             }
         case 3:

@@ -12,13 +12,17 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var addCommentButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonBackgroundView: UIView!
+    
+    private var isAuthotized = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
-        
-        
+        configureView()
+        configureTableView()
+      
+    }
+    
+    func configureView(){
         buttonBackgroundView.layer.cornerRadius = 8
         addCommentButton.layer.cornerRadius = 8
         
@@ -29,9 +33,15 @@ class DetailViewController: UIViewController {
         addCommentButton.layer.shadowOffset = CGSize(width: 0, height: 5)
     }
     
+    func configureTableView(){
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableView.automaticDimension
+    }
     
     @IBAction func addCommentButtonTapped(_ sender: Any) {
-        openPopUp()
+        isAuthotized ? openPopUp() : showLogin()
+        
     }
     
     func openPopUp(){
@@ -43,7 +53,12 @@ class DetailViewController: UIViewController {
         
         present(secondVC, animated: true, completion: nil)
     }
-    
+    func showLogin()  {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        let secondVC = storyboard.instantiateViewController(identifier: "login")
+
+        present(secondVC, animated: true, completion: nil)
+    }
 }
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
