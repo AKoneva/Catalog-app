@@ -206,9 +206,8 @@ class SignUpViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToCatalogFromSignUp" {
             let navigationController = segue.destination as! UINavigationController
-            let tabBarController = navigationController.topViewController as! UITabBarController
-            let destinationViewController = tabBarController.viewControllers![0] as! HomeViewController
-            destinationViewController.user = user
+            let tabBarController = navigationController.topViewController as! BaseTabBarController
+            tabBarController.user = user
         }
     }
     

@@ -26,7 +26,6 @@ class LoginViewController: UIViewController {
     
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var user: User?
-    private var goToHomePage = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,24 +117,43 @@ class LoginViewController: UIViewController {
     }
     
     func checkData() -> Bool {
+        guard let email = emailTextField.text else {
+            return false
+        }
+        guard let password = passwordTextField.text else {
+            return false
+        }
+        if emailValidationErrorStack.isHidden == false || passwordValidationErrorStack.isHidden == false  {
+            showAlert(title: "Warning", text: "Please, check data")
+            return false
+        }
+        else  if emailTextField.text == nil || passwordTextField.text == nil || emailTextField.text == "" || passwordTextField.text == ""  {
+            showAlert(title: "Warning", text: "Please, fill data to lohin")
+            return false
+        }
+        else {
+            return true
+        }
+        
+    }
+    
+    func Login(){
         
         fetchUser()
-        guard let  user = self.user else {
+        guard let  user = user else {
             passwordValidationErrorsLabel.text = "No such user found"
             passwordValidationErrorStack.isHidden = false
-            return false
+            return
         }
         
         if user.password != "" && passwordTextField.text == user.password {
             passwordValidationErrorStack.isHidden = true
             print("## logged user", user)
-            return true
-           
+            performSegue(withIdentifier: "goToHomePage", sender: self)
         }
         else {
             passwordValidationErrorsLabel.text = "Wrong password or email"
             passwordValidationErrorStack.isHidden = false
-            return false
         }
         
     }
@@ -144,27 +162,38 @@ class LoginViewController: UIViewController {
     //MARK:- Buttons action
     
     @IBAction func LoginButtonAction(_ sender: Any) {
-        if emailTextField.text != "" && passwordTextField.text != "" && emailTextField.text != nil && passwordTextField.text != nil && validateEmail(enteredEmail:  emailTextField.text) && validatePassword(enteredPassword: passwordTextField.text){
-            goToHomePage = checkData()
+        if validateEmail(enteredEmail:  emailTextField.text) && validatePassword(enteredPassword: passwordTextField.text) {
+            Login()
         }
         else {
-            passwordValidationErrorsLabel.text = "Input email and password"
+            passwordValidationErrorsLabel.text = "Chek your email and password"
             passwordValidationErrorStack.isHidden = false
         }
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToCatalog" {
-            if goToHomePage == true {
+        if segue.identifier == "goToHomePage" {
+            if checkData() {
                 let navigationController = segue.destination as! UINavigationController
                 let tabBarController = navigationController.topViewController as! BaseTabBarController
-                tabBarController.user = user
+                tabBarController.user = self.user
             }
-            
+            else {
+                return
+            }
         }
+        
+    }
+    
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
 }
+
 
 
 //MARK:- Extensions
@@ -190,7 +219,7 @@ extension LoginViewController {
     func fetchUser(){
         do{
             let request = User.fetchRequest() as  NSFetchRequest<User>
-            let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text as! CVarArg)
+            let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text!)
             request.predicate = filter
             self.user = try context.fetch(request).first ?? nil
         }

@@ -111,17 +111,6 @@ class ProfileViewController: UIViewController{
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
         user = nil
-        showLogin()
-    }
-    
-    func showLogin()  {
-        let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "login")
-        
-        secondVC.modalPresentationStyle = .fullScreen
-        secondVC.modalTransitionStyle = .crossDissolve
-        
-        present(secondVC, animated: true, completion: nil)
     }
     
     func showAlert(title: String, text: String) {

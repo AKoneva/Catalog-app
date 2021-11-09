@@ -63,24 +63,35 @@ class ResetPasswordViewController: UIViewController {
     //MARK:- Buttons action
     
     @IBAction func resetPasswordButtonTapped(_ sender: Any) {
-        if validateEmail(enteredEmail: userEmailTextField.text) {
+        fetchUser()
+        if validateEmail(enteredEmail: userEmailTextField.text) && user != nil {
+            
             user?.password = "1111"
             do {
                 try context.save()
             }
             catch {
-                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+                showErrorAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
             }
             showAlert(title: "Successfully", text:  "We send you email with your new password. You can change it in your personal cabinet (this is stub, password is \"1111\")")
+          
         }
         else {
-            showAlert(title: "Warning", text: "Please, check your email. No such user was found")
+            showErrorAlert(title: "Warning", text: "Please, check your email. No such user was found")
         }
+    }
+    
+    func showErrorAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     func showAlert(title: String, text: String) {
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
+            self.navigationController?.popToRootViewController(animated: true)
+        }))
         self.present(alert, animated: true)
     }
 }
