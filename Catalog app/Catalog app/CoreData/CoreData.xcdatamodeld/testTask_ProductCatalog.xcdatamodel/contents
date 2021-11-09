@@ -23,7 +23,7 @@
         <attribute name="commentsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="email" attributeType="String" defaultValueString="email@email.com"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="image" optional="YES" attributeType="String" valueTransformerName="UIImage" defaultValueString="&quot;noPhotoIcon&quot;"/>
+        <attribute name="image" optional="YES" attributeType="Binary" valueTransformerName="UIImage" defaultValueString="&quot;noPhotoIcon&quot;" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="password" attributeType="String" defaultValueString="&quot;&quot;"/>
     </entity>

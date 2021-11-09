@@ -110,7 +110,7 @@
                                             <color key="titleColor" name="main_light"/>
                                         </state>
                                         <connections>
-                                            <segue destination="Az4-rM-G7a" kind="show" id="63i-TC-9fq"/>
+                                            <segue destination="Az4-rM-G7a" kind="show" identifier="changePassword" id="63i-TC-9fq"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5l5-OQ-YDm">

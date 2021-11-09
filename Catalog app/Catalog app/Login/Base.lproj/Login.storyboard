@@ -264,7 +264,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kSv-Jw-Ryf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="917" y="78"/>
+            <point key="canvasLocation" x="1018" y="523"/>
         </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="jb5-qg-6wV">
@@ -819,7 +819,7 @@ Version anna test task 1.00</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oBp-ui-mze"/>
+        <segue reference="F4X-Co-lN8"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>

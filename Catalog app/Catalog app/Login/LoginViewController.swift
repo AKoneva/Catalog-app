@@ -25,17 +25,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordValidationErrorsLabel: UILabel!
     
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var currentUser : User?
+    private var user: User?
+    private var goToHomePage = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureView()
         configureKeyboard()
+        
     }
     
+    
+    //MARK:- Configuration
+    
     func configureView(){
-        hideKeyboardWhenTappedAround()
         
         emailTextField.delegate = self
         passwordTextField.delegate = self
@@ -48,23 +52,26 @@ class LoginViewController: UIViewController {
     }
     
     func configureKeyboard(){
+        hideKeyboardWhenTappedAround()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        
         self.view.frame.origin.y = 0 - keyboardSize.height/4
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = 0
     }
+    
+    
+    //MARK:- Validation
     
     func validateEmail(enteredEmail:String?) -> Bool {
         guard enteredEmail != nil   else {
@@ -110,11 +117,35 @@ class LoginViewController: UIViewController {
         return true
     }
     
+    func checkData() -> Bool {
+        
+        fetchUser()
+        guard let  user = self.user else {
+            passwordValidationErrorsLabel.text = "No such user found"
+            passwordValidationErrorStack.isHidden = false
+            return false
+        }
+        
+        if user.password != "" && passwordTextField.text == user.password {
+            passwordValidationErrorStack.isHidden = true
+            print("## logged user", user)
+            return true
+           
+        }
+        else {
+            passwordValidationErrorsLabel.text = "Wrong password or email"
+            passwordValidationErrorStack.isHidden = false
+            return false
+        }
+        
+    }
     
+    
+    //MARK:- Buttons action
     
     @IBAction func LoginButtonAction(_ sender: Any) {
-        if emailTextField.text != "" && passwordTextField.text != "" &&  validateEmail(enteredEmail:  emailTextField.text) && validatePassword(enteredPassword: passwordTextField.text){
-            Login()
+        if emailTextField.text != "" && passwordTextField.text != "" && emailTextField.text != nil && passwordTextField.text != nil && validateEmail(enteredEmail:  emailTextField.text) && validatePassword(enteredPassword: passwordTextField.text){
+            goToHomePage = checkData()
         }
         else {
             passwordValidationErrorsLabel.text = "Input email and password"
@@ -122,47 +153,22 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
-    func Login(){
-        
-        fetchUser()
-        guard let  user = currentUser else {
-            passwordValidationErrorsLabel.text = "No such user found"
-            passwordValidationErrorStack.isHidden = false
-            return
-        }
-        
-        if user.password != "" && passwordTextField.text == user.password {
-            passwordValidationErrorStack.isHidden = true
-            //                goToMainScreen()
-            print("## logged user", currentUser)
-            performSegue(withIdentifier: "goToCatalog", sender: self)
-        }
-        else {
-            passwordValidationErrorsLabel.text = "Wrong password or email"
-            passwordValidationErrorStack.isHidden = false
-        }
-        
-    }
-//
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "goToCatalog" {
-//            let navigationController = segue.destination as! UINavigationController
-//            let tabBarController = navigationController.topViewController as! UITabBarController
-//            let destinationViewController = tabBarController.viewControllers![0] as! HomeViewController
-//            destinationViewController.user = currentUser
-//        }
-//        }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToCatalog" {
-            let navigationController = segue.destination as! UINavigationController
-            let tabBarController = navigationController.topViewController as! BaseTabBarController
-            tabBarController.user = currentUser
+            if goToHomePage == true {
+                let navigationController = segue.destination as! UINavigationController
+                let tabBarController = navigationController.topViewController as! BaseTabBarController
+                tabBarController.user = user
+            }
+            
         }
-        }
+    }
     
-
 }
+
+
+//MARK:- Extensions
+
 extension LoginViewController: UITextFieldDelegate {
     
     
@@ -186,11 +192,10 @@ extension LoginViewController {
             let request = User.fetchRequest() as  NSFetchRequest<User>
             let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text as! CVarArg)
             request.predicate = filter
-            self.currentUser = try context.fetch(request).first ?? nil
+            self.user = try context.fetch(request).first ?? nil
         }
         catch {
             
         }
     }
-    
 }

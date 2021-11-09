@@ -19,7 +19,7 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var confirmPasswordValidationErrorsLabel: UILabel!
     @IBOutlet weak var logoView: UIView!
     @IBOutlet weak var changePasswordButton: UIButton!
-    let user = User()
+    var user: User?
     
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -37,7 +37,7 @@ class ChangePasswordViewController: UIViewController {
     
     @IBAction func changePasswordButtonTapped(_ sender: Any) {
         if checkData() {
-            user.password = newPasswordTextField.text
+            user?.password = newPasswordTextField.text
             do {
                try context.save()
             }

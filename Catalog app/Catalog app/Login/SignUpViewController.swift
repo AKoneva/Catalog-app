@@ -28,21 +28,30 @@ class SignUpViewController: UIViewController {
     
     private  var user = User()
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var allUsers: [User]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
+        configureView()
+        configureKeyboard()
+    }
+    
+    
+    //MARK:- Configuration
+    
+    func configureView() {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         confirmPasswordTextField.delegate = self
         
         createAccountButton.layer.cornerRadius = 6
-        // tags
+        
         emailTextField.tag = 1
         passwordTextField.tag = 2
         confirmPasswordTextField.tag = 3
-        
+    }
+    
+    func configureKeyboard() {
+        hideKeyboardWhenTappedAround()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -50,17 +59,17 @@ class SignUpViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
+        self.view.frame.origin.y = 0 - 150
         
-        //        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-        //            return
-        //        }
-        
-        self.view.frame.origin.y = 0 - 150//- keyboardSize.height
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = 0
+        
     }
+    
+    
+    //MARK:- Validation
     
     func validateEmail(enteredEmail: String?) -> Bool {
         guard enteredEmail != nil else {
@@ -151,11 +160,8 @@ class SignUpViewController: UIViewController {
         
     }
     
-    func showAlert(title: String, text: String) {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
+    
+    //MARK:- Buttons action
     
     @IBAction func changedSwitchState(_ sender: Any) {
         if isAgreedWithTermsAndPrivacyPolicy.isOn {
@@ -170,9 +176,7 @@ class SignUpViewController: UIViewController {
         if  checkData() {
             createAccount()
         }
-        
     }
-    
     
     func createAccount(){
         guard let email = emailTextField.text else {
@@ -181,11 +185,10 @@ class SignUpViewController: UIViewController {
         guard let password = passwordTextField.text else {
             return
         }
-        // add to DB
         let newUser = User(context: self.context)
         newUser.email = email
         newUser.password = password
-        newUser.image = "noPhotoIcon"
+        newUser.image = UIImage(named: "noPhotoIcon")?.jpegData(compressionQuality: 1.0)
         newUser.name = "Unknown name"
         newUser.commentsCount = 0
         newUser.id = UUID()
@@ -196,10 +199,10 @@ class SignUpViewController: UIViewController {
         catch {
             showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
         }
-        fetchUsers()
         performSegue(withIdentifier: "goToCatalogFromSignUp", sender: self)
         
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToCatalogFromSignUp" {
             let navigationController = segue.destination as! UINavigationController
@@ -207,12 +210,20 @@ class SignUpViewController: UIViewController {
             let destinationViewController = tabBarController.viewControllers![0] as! HomeViewController
             destinationViewController.user = user
         }
-        }
-
+    }
     
-
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     
 }
+
+
+//MARK:- Extensions
+
 extension SignUpViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -233,30 +244,6 @@ extension SignUpViewController: UITextFieldDelegate {
             }
         default: break
         }
-        
     }
     
-}
-
-struct UserData {
-    var email: String
-    var password: String
-    var isAuthorized: Bool
-    
-}
-extension SignUpViewController {
-    func fetchUsers(){
-        do{
-            self.allUsers = try context.fetch(User.fetchRequest())
-        }
-        catch{
-
-        }
-        print(self.allUsers)
-//
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
-    }
-
 }

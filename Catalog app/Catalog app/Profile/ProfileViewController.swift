@@ -46,7 +46,7 @@ class ProfileViewController: UIViewController{
     }
     
     func configureView(){
-//        avatarImageView.image = UIImage(data: user.image!)
+        
 
         logOutButton.layer.cornerRadius = 5
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width/2
@@ -63,7 +63,8 @@ class ProfileViewController: UIViewController{
         editEmailTextField.tag = 2
         
         if user != nil {
-            avatarImageView.image  = UIImage(named: user?.image ?? "noPhotoIcon")
+            let defaultImage = UIImage(named: "noPhotoIcon")!.pngData()
+            avatarImageView.image = UIImage(data: (user?.image ?? defaultImage)!)
             nameLabel.text = user?.name
             numberOfCommentsLabel.text = String(user?.commentsCount ?? 0)
             emailLabel.text = user?.email
@@ -90,8 +91,8 @@ class ProfileViewController: UIViewController{
         if checkData() {
             user?.name = editNameTextField.text
             user?.email = editEmailTextField.text
-//            user.image = (avatarImageView.image ?? UIImage(named: "noPhotoIcon"))!.pngData()
-            
+            user?.image = avatarImageView.image!.jpegData(compressionQuality: 1.0)
+
             do {
                 try context.save()
             }
@@ -199,6 +200,14 @@ class ProfileViewController: UIViewController{
         return false
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "changePassword" {
+            let nextVC = segue.destination as! ChangePasswordViewController
+                nextVC.user = user
+            
+        }
+    }
+    
 }
 
 extension ProfileViewController: UITextFieldDelegate {
@@ -223,14 +232,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             present(imagePicker, animated: true, completion: nil)
         }
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let img = info[.editedImage] as? UIImage {
+        if let img = info[.originalImage] as? UIImage {
             avatarImageView.image = img
-        }
+            self.dismiss(animated: true)
     }
     
+}
 }

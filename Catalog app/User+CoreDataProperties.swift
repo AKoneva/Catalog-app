@@ -19,7 +19,7 @@ extension User {
     @NSManaged public var commentsCount: Int64
     @NSManaged public var email: String?
     @NSManaged public var id: UUID?
-    @NSManaged public var image: String?
+    @NSManaged public var image: Data?
     @NSManaged public var name: String?
     @NSManaged public var password: String?
 

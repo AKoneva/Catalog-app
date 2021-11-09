@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ResetPasswordViewController: UIViewController {
     
@@ -14,27 +15,20 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorLabel: UILabel!
     @IBOutlet weak var userEmailTextField: UITextField!
     
+    
+    var user: User?
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.hideKeyboardWhenTappedAround()
+        hideKeyboardWhenTappedAround()
         userEmailTextField.delegate = self
         resetButton.layer.cornerRadius = 6
     }
     
     
-    @IBAction func resetPasswordButtonTapped(_ sender: Any) {
-        if validateEmail(enteredEmail: userEmailTextField.text) {
-            let alert = UIAlertController(title: "Done", message: "We send you email with your new password. You can change it in your personal cabinet (this is stub)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-        else {
-            let alert = UIAlertController(title: "Error", message: "Please, check your email", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-    }
+    //MARK:- Validation
     
     func validateEmail(enteredEmail:String?) -> Bool {
         guard enteredEmail != nil else {
@@ -66,7 +60,34 @@ class ResetPasswordViewController: UIViewController {
     }
     
     
+    //MARK:- Buttons action
+    
+    @IBAction func resetPasswordButtonTapped(_ sender: Any) {
+        if validateEmail(enteredEmail: userEmailTextField.text) {
+            user?.password = "1111"
+            do {
+                try context.save()
+            }
+            catch {
+                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+            }
+            showAlert(title: "Successfully", text:  "We send you email with your new password. You can change it in your personal cabinet (this is stub, password is \"1111\")")
+        }
+        else {
+            showAlert(title: "Warning", text: "Please, check your email. No such user was found")
+        }
+    }
+    
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
 }
+
+
+//MARK:- Extensions
+
 extension ResetPasswordViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -75,3 +96,15 @@ extension ResetPasswordViewController: UITextFieldDelegate {
     }
 }
 
+extension ResetPasswordViewController {
+    func fetchUser(){
+        do{
+            let request = User.fetchRequest() as  NSFetchRequest<User>
+            request.predicate = NSPredicate(format: "email CONTAINS %@", userEmailTextField.text!)
+            self.user = try context.fetch(request).first ?? nil
+        }
+        catch {
+            
+        }
+    }
+}
