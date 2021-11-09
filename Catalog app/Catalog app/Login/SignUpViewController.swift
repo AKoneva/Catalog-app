@@ -26,7 +26,9 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
     @IBOutlet weak var switchErrorsLabel: UILabel!
     
-    private  var user = UserData(email: "", password: "", isAuthorized: false)
+    private  var user = User()
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var allUsers: [User]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,16 +133,16 @@ class SignUpViewController: UIViewController {
         else {
             switchErrorsLabel.text = "You have to agree with terms and privacy policy to continue"
             switchErrorsStack.isHidden = false
-            showErrorAlert(title: "Warning", text: "Please, check if the data is correct")
+            showAlert(title: "Warning", text: "Please, check if the data is correct")
             return false
         }
         if emailValidationErrorStack.isHidden == false || passwordValidationStack.isHidden == false || passwordValidationErrorStack.isHidden ==  false ||  switchErrorsStack.isHidden == false  {
             
-            showErrorAlert(title: "Warning", text: "Please, check if the data is correct")
+            showAlert(title: "Warning", text: "Please, check if the data is correct")
             return false
         }
         else  if emailTextField.text == nil || passwordTextField.text == nil || confirmPasswordTextField.text == nil || emailTextField.text == "" || passwordTextField.text == "" || confirmPasswordTextField.text == "" {
-            showErrorAlert(title: "Warning", text: "Please, fill data to create an account")
+            showAlert(title: "Warning", text: "Please, fill data to create an account")
             return false
         }
         else {
@@ -149,7 +151,7 @@ class SignUpViewController: UIViewController {
         
     }
     
-    func showErrorAlert(title: String, text: String) {
+    func showAlert(title: String, text: String) {
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)
@@ -167,7 +169,6 @@ class SignUpViewController: UIViewController {
     @IBAction func CreateAccountButtonAction(_ sender: Any) {
         if  checkData() {
             createAccount()
-            goToMainScreen()
         }
         
     }
@@ -180,23 +181,36 @@ class SignUpViewController: UIViewController {
         guard let password = passwordTextField.text else {
             return
         }
-        self.user = UserData(email: email, password: password, isAuthorized: true)
         // add to DB
-        let alert = UIAlertController(title: "Done", message: "Thank you for join us", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-        
-        
-    }
-    
-    func goToMainScreen() {
-        if user.isAuthorized == true {
-            let storyboard = UIStoryboard(name: "Catalog", bundle: nil)
-            let secondVC = storyboard.instantiateViewController(identifier: "Home")
-            show(secondVC, sender: self)
+        let newUser = User(context: self.context)
+        newUser.email = email
+        newUser.password = password
+        newUser.image = "noPhotoIcon"
+        newUser.name = "Unknown name"
+        newUser.commentsCount = 0
+        newUser.id = UUID()
+        user = newUser
+        do {
+            try self.context.save()
         }
+        catch {
+            showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+        }
+        fetchUsers()
+        performSegue(withIdentifier: "goToCatalogFromSignUp", sender: self)
         
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToCatalogFromSignUp" {
+            let navigationController = segue.destination as! UINavigationController
+            let tabBarController = navigationController.topViewController as! UITabBarController
+            let destinationViewController = tabBarController.viewControllers![0] as! HomeViewController
+            destinationViewController.user = user
+        }
+        }
+
+    
+
     
 }
 extension SignUpViewController: UITextFieldDelegate {
@@ -229,4 +243,20 @@ struct UserData {
     var password: String
     var isAuthorized: Bool
     
+}
+extension SignUpViewController {
+    func fetchUsers(){
+        do{
+            self.allUsers = try context.fetch(User.fetchRequest())
+        }
+        catch{
+
+        }
+        print(self.allUsers)
+//
+//        DispatchQueue.main.async {
+//            self.tableView.reloadData()
+//        }
+    }
+
 }

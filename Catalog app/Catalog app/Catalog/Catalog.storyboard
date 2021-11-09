@@ -369,7 +369,9 @@
                             <constraint firstItem="v9P-9Z-jWu" firstAttribute="trailing" secondItem="1aq-mq-TLU" secondAttribute="trailing" id="pOL-Zg-wh5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="s6H-uJ-0Kw"/>
+                    <navigationItem key="navigationItem" id="s6H-uJ-0Kw">
+                        <barButtonItem key="backBarButtonItem" title=" " id="u0l-Hf-Rct"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="addCommentButton" destination="fnA-IK-qwK" id="Qs3-fD-8B3"/>
                         <outlet property="buttonBackgroundView" destination="3v5-Lf-nZU" id="A3g-jt-ucE"/>
@@ -380,11 +382,12 @@
             </objects>
             <point key="canvasLocation" x="-2136.231884057971" y="1255.5803571428571"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Item-->
         <scene sceneID="EwU-aw-dAN">
             <objects>
                 <navigationController storyboardIdentifier="Nav" wantsFullScreenLayout="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9gQ-sF-P1w" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <tabBarItem key="tabBarItem" title="Item" id="UQB-Bx-2Z1"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="f8b-Vr-q0G">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -402,12 +405,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="FG5-2T-xok" kind="relationship" relationship="rootViewController" id="lFB-6B-ELU"/>
+                        <segue destination="FG5-2T-xok" kind="relationship" relationship="rootViewController" id="60r-n6-Uzk"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4uF-gR-9fK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2393" y="-171"/>
+            <point key="canvasLocation" x="-2228" y="-307"/>
         </scene>
         <!--Home-->
         <scene sceneID="CiQ-Fp-aT3">
@@ -580,7 +583,7 @@
                                                     <outlet property="productImage" destination="zWz-Hn-QCY" id="9zf-Jw-qhr"/>
                                                     <outlet property="productName" destination="Hp8-YF-x3d" id="7lt-p8-0PT"/>
                                                     <outlet property="stars" destination="qIL-dx-jbp" id="gvC-Qk-ffa"/>
-                                                    <segue destination="a7b-gZ-Hot" kind="show" id="LlU-So-cGm"/>
+                                                    <segue destination="a7b-gZ-Hot" kind="show" identifier="goToDetail" id="LlU-So-cGm"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -602,6 +605,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house" id="YaQ-Ng-eXa"/>
+                    <navigationItem key="navigationItem" id="aP7-TJ-Ljg"/>
                     <connections>
                         <outlet property="backgroundView" destination="9l3-mN-z3f" id="bAr-Qb-ARl"/>
                         <outlet property="collectionView" destination="HXQ-AN-B8f" id="DbV-u7-sOg"/>
@@ -734,10 +738,10 @@
             </objects>
             <point key="canvasLocation" x="-1381" y="528"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Base Tab Bar Controller-->
         <scene sceneID="oFw-LX-KQb">
             <objects>
-                <tabBarController storyboardIdentifier="tabBar" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FG5-2T-xok" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBar" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FG5-2T-xok" customClass="BaseTabBarController" customModule="Catalog_app" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yAn-KO-Sav">
                         <barButtonItem key="backBarButtonItem" title="   " id="gz4-le-zxc"/>
                     </navigationItem>
@@ -749,14 +753,14 @@
                         <color key="selectedImageTintColor" name="main_green"/>
                     </tabBar>
                     <connections>
-                        <segue destination="W1H-Td-NQN" kind="relationship" relationship="viewControllers" id="afq-xt-oui"/>
+                        <segue destination="W1H-Td-NQN" kind="relationship" relationship="viewControllers" id="0Es-EB-Wiq"/>
                         <segue destination="CeC-mP-Mzy" kind="relationship" relationship="viewControllers" id="uTf-65-U8T"/>
                         <segue destination="VIn-uq-f4X" kind="relationship" relationship="viewControllers" id="hS7-EA-TAY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Gs-g7-Qzn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1446" y="-171"/>
+            <point key="canvasLocation" x="-1270" y="-307"/>
         </scene>
         <!--Profile-->
         <scene sceneID="H07-AQ-fio">

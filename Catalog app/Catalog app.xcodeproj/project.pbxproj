@@ -22,10 +22,12 @@
 		FA42B29A2734207B00B0CD8A /* Catalog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA42B2992734207B00B0CD8A /* Catalog.storyboard */; };
 		FA42B2AD273438C600B0CD8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42B2AC273438C600B0CD8A /* SignUpViewController.swift */; };
 		FA42B2B02734394A00B0CD8A /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42B2AF2734394A00B0CD8A /* ResetPasswordViewController.swift */; };
+		FA5BFE28273AA5D000E991DB /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE26273AA5D000E991DB /* User+CoreDataClass.swift */; };
+		FA5BFE29273AA5D000E991DB /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE27273AA5D000E991DB /* User+CoreDataProperties.swift */; };
+		FA5BFE2D273AC1EE00E991DB /* BaseTabBarControlle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE2C273AC1EE00E991DB /* BaseTabBarControlle.swift */; };
 		FA89B909273A70F300301A30 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89B908273A70F300301A30 /* Extentions.swift */; };
 		FA97934127387BB3003C5F89 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA97934027387BB3003C5F89 /* Profile.storyboard */; };
 		FA97934227387DA0003C5F89 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950C92735A2DC0077B17A /* ProfileViewController.swift */; };
-		FA9793442738809E003C5F89 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9793432738809E003C5F89 /* ImagePicker.swift */; };
 		FA979347273929A8003C5F89 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */; };
 		FA9EB5142737EE4300AD2D2E /* AddCommentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9EB5132737EE4300AD2D2E /* AddCommentPopupViewController.swift */; };
 		FAF950D02735A5DD0077B17A /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950CF2735A5DD0077B17A /* ProductTableViewCell.swift */; };
@@ -50,9 +52,11 @@
 		FA42B2992734207B00B0CD8A /* Catalog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Catalog.storyboard; sourceTree = "<group>"; };
 		FA42B2AC273438C600B0CD8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FA42B2AF2734394A00B0CD8A /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		FA5BFE26273AA5D000E991DB /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		FA5BFE27273AA5D000E991DB /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FA5BFE2C273AC1EE00E991DB /* BaseTabBarControlle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarControlle.swift; sourceTree = "<group>"; };
 		FA89B908273A70F300301A30 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		FA97934027387BB3003C5F89 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
-		FA9793432738809E003C5F89 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		FA9EB5132737EE4300AD2D2E /* AddCommentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentPopupViewController.swift; sourceTree = "<group>"; };
 		FAF950C92735A2DC0077B17A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			children = (
 				FA9EB5112737EE0800AD2D2E /* Cell */,
 				FA0C6BAE27356A8500B538EE /* HomeViewController.swift */,
+				FA5BFE2C273AC1EE00E991DB /* BaseTabBarControlle.swift */,
 			);
 			path = HomePageCollectionView;
 			sourceTree = "<group>";
@@ -92,6 +97,8 @@
 		FA42B271273404CB00B0CD8A = {
 			isa = PBXGroup;
 			children = (
+				FA5BFE26273AA5D000E991DB /* User+CoreDataClass.swift */,
+				FA5BFE27273AA5D000E991DB /* User+CoreDataProperties.swift */,
 				FA42B27C273404CB00B0CD8A /* Catalog app */,
 				FA42B27B273404CB00B0CD8A /* Products */,
 			);
@@ -118,7 +125,6 @@
 				FA42B289273404CD00B0CD8A /* Assets.xcassets */,
 				FA42B28B273404CD00B0CD8A /* LaunchScreen.storyboard */,
 				FA42B28E273404CD00B0CD8A /* Info.plist */,
-				FA42B286273404CB00B0CD8A /* CoreData.xcdatamodeld */,
 			);
 			path = "Catalog app";
 			sourceTree = "<group>";
@@ -148,6 +154,7 @@
 		FA89B8EF273A608C00301A30 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				FA42B286273404CB00B0CD8A /* CoreData.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -166,7 +173,6 @@
 				FA9793452739243D003C5F89 /* Change password */,
 				FAF950C92735A2DC0077B17A /* ProfileViewController.swift */,
 				FA97934027387BB3003C5F89 /* Profile.storyboard */,
-				FA9793432738809E003C5F89 /* ImagePicker.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -296,12 +302,14 @@
 				FA42B27E273404CB00B0CD8A /* AppDelegate.swift in Sources */,
 				FA0C6BC02735931D00B538EE /* CategoryTableViewCell.swift in Sources */,
 				FA42B288273404CB00B0CD8A /* CoreData.xcdatamodeld in Sources */,
+				FA5BFE29273AA5D000E991DB /* User+CoreDataProperties.swift in Sources */,
 				FA42B2B02734394A00B0CD8A /* ResetPasswordViewController.swift in Sources */,
 				FAF950D52735A6020077B17A /* CommentTableViewCell.swift in Sources */,
 				FA979347273929A8003C5F89 /* ChangePasswordViewController.swift in Sources */,
 				FA42B280273404CB00B0CD8A /* SceneDelegate.swift in Sources */,
-				FA9793442738809E003C5F89 /* ImagePicker.swift in Sources */,
+				FA5BFE28273AA5D000E991DB /* User+CoreDataClass.swift in Sources */,
 				FA89B909273A70F300301A30 /* Extentions.swift in Sources */,
+				FA5BFE2D273AC1EE00E991DB /* BaseTabBarControlle.swift in Sources */,
 				FA9EB5142737EE4300AD2D2E /* AddCommentPopupViewController.swift in Sources */,
 				FA42B2AD273438C600B0CD8A /* SignUpViewController.swift in Sources */,
 			);

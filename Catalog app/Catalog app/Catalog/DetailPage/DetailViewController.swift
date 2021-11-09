@@ -13,13 +13,13 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonBackgroundView: UIView!
     
-    private var isAuthotized = false
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureTableView()
-      
+        print("## detail userr", user)
     }
     
     func configureView(){
@@ -40,7 +40,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func addCommentButtonTapped(_ sender: Any) {
-        isAuthotized ? openPopUp() : showLogin()
+        user != nil ? openPopUp() : showLogin()
         
     }
     

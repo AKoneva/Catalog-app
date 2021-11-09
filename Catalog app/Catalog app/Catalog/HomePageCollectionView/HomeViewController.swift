@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var refreshControl: UIRefreshControl!
-    
+    var user: User?
     var data = [Product(name: "poduct 1", discription: "bla bla bla bla bla bla bla ", image: "image", category: "first"),
                 Product(name: "poduct 2", discription: "bla bla bla bla bla bla bla ", image: "image", category: "first"),
                 Product(name: "poduct 3", discription: "bla bla bla bla bla bla bla ", image: "image", category: "first"),
@@ -40,6 +40,8 @@ class HomeViewController: UIViewController {
         
         searchBar.delegate = self
         filteredData = data
+        print("## home userr", user)
+        
     }
   
     @objc func refresh(_ sender: Any) {
@@ -49,6 +51,12 @@ class HomeViewController: UIViewController {
        
     }
   
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+            let nextViewController =  segue.destination as! DetailViewController
+            nextViewController.user = self.user
+        
+    }
 
 }
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
@@ -89,6 +97,7 @@ extension HomeViewController: UISearchBarDelegate {
             self.searchBar.endEditing(true)
         }
 }
+
 struct Product {
     var name: String
     var discription: String

@@ -8,7 +8,7 @@
 import UIKit
 import NotificationCenter
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController{
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
@@ -31,8 +31,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     
     private var imagePicker = UIImagePickerController()
-    private var isAuthotized = true
-    
+    var user: User?
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
@@ -40,11 +41,13 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+        print("##", user)
         configureView()
     }
     
     func configureView(){
+//        avatarImageView.image = UIImage(data: user.image!)
+
         logOutButton.layer.cornerRadius = 5
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width/2
         avatarImageView.layer.borderWidth = 5
@@ -59,14 +62,14 @@ class ProfileViewController: UIViewController {
         editNameTextField.tag = 1
         editEmailTextField.tag = 2
         
-        if isAuthotized {
-            avatarImageView.image  = #imageLiteral(resourceName: "photo_2021-10-19 12.59.08")
-            nameLabel.text = "Anna Perekhrest"
-            numberOfCommentsLabel.text = "23"
-            emailLabel.text = "annaperekhrest@gmail.com"
+        if user != nil {
+            avatarImageView.image  = UIImage(named: user?.image ?? "noPhotoIcon")
+            nameLabel.text = user?.name
+            numberOfCommentsLabel.text = String(user?.commentsCount ?? 0)
+            emailLabel.text = user?.email
         }
         else {
-            avatarImageView.image  = #imageLiteral(resourceName: "noPhotoIcon")
+            avatarImageView.image  = UIImage(named: "noPhotoIcon")
             nameLabel.text = "Unknown"
             numberOfCommentsLabel.text = "0"
             emailLabel.text = ""
@@ -75,7 +78,7 @@ class ProfileViewController: UIViewController {
             logOutButton.setTitle("Log in", for: .normal)
         }
     }
-
+    
     
     @IBAction func editProfileButtonTapped(_ sender: Any) {
         editNameTextField.text = nameLabel.text
@@ -85,22 +88,29 @@ class ProfileViewController: UIViewController {
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         if checkData() {
+            user?.name = editNameTextField.text
+            user?.email = editEmailTextField.text
+//            user.image = (avatarImageView.image ?? UIImage(named: "noPhotoIcon"))!.pngData()
+            
+            do {
+                try context.save()
+            }
+            catch {
+                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+            }
             editView.isHidden = true
         }
         
-       
+        
     }
- 
+    
     @IBAction func editPhotoButtonTapped(_ sender: Any) {
-       
-        ImagePickerManager().pickImage(self){ image in
-            self.avatarImageView.image = image
-          }
-
+        openImagePicker()
     }
     
     @IBAction func logoutButtonTapped(_ sender: Any) {
-       showLogin()
+        user = nil
+        showLogin()
     }
     
     func showLogin()  {
@@ -113,8 +123,14 @@ class ProfileViewController: UIViewController {
         present(secondVC, animated: true, completion: nil)
     }
     
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
-       self.view.frame.origin.y = 0 - 150
+        self.view.frame.origin.y = 0 - 150
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -163,7 +179,7 @@ class ProfileViewController: UIViewController {
             nameValidationErrorStack.isHidden = false
             return false
         }
-      
+        
     }
     func checkData() -> Bool {
         if nameValidationErrorStack.isHidden == true && emailValidationErrorStack.isHidden == true  {
@@ -173,7 +189,7 @@ class ProfileViewController: UIViewController {
                 saveValidationErrorsStack.isHidden = true
             }
             
-           return true
+            return true
         }
         else if editNameTextField.text == "" || editNameTextField.text == nil || editEmailTextField.text == "" || editEmailTextField.text == nil {
             saveValidationErrorsLabel.text = "Please, cheak your data. Unable to save."
@@ -182,6 +198,7 @@ class ProfileViewController: UIViewController {
         }
         return false
     }
+    
 }
 
 extension ProfileViewController: UITextFieldDelegate {
@@ -200,4 +217,20 @@ extension ProfileViewController: UITextFieldDelegate {
         }
         
     }
+}
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+    func openImagePicker() {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let img = info[.editedImage] as? UIImage {
+            avatarImageView.image = img
+        }
+    }
+    
 }

@@ -19,6 +19,9 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var confirmPasswordValidationErrorsLabel: UILabel!
     @IBOutlet weak var logoView: UIView!
     @IBOutlet weak var changePasswordButton: UIButton!
+    let user = User()
+    
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +37,14 @@ class ChangePasswordViewController: UIViewController {
     
     @IBAction func changePasswordButtonTapped(_ sender: Any) {
         if checkData() {
-            showErrorAlert(title: "Succsess", text: "Your password succsesfully changed")
+            user.password = newPasswordTextField.text
+            do {
+               try context.save()
+            }
+            catch {
+                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+            }
+            showAlert(title: "Succsess", text: "Your password succsesfully changed")
             self.dismiss(animated: true)
             
         }
@@ -78,11 +88,11 @@ class ChangePasswordViewController: UIViewController {
     func checkData() -> Bool {
        
         if  newPasswordValodationErrorsStack.isHidden == false || confirmPasswordValidationErrorsStack.isHidden ==  false {
-            showErrorAlert(title: "Warning", text: "Please, check if the data is correct")
+            showAlert(title: "Warning", text: "Please, check if the data is correct")
             return false
         }
         else  if newPasswordTextField.text == nil || confirmPasswordTextField.text == nil || newPasswordTextField.text == "" || confirmPasswordTextField.text == "" {
-            showErrorAlert(title: "Warning", text: "Please, fill data to create an account")
+            showAlert(title: "Warning", text: "Please, fill data to create an account")
             return false
         }
         else {
@@ -91,7 +101,7 @@ class ChangePasswordViewController: UIViewController {
         
     }
     
-    func showErrorAlert(title: String, text: String) {
+    func showAlert(title: String, text: String) {
         let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)

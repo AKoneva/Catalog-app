@@ -160,6 +160,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="LoginButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MSg-UZ-MCO"/>
+                                                            <segue destination="O2v-iO-yP5" kind="presentation" identifier="goToCatalog" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="F4X-Co-lN8"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Se9-c6-gpU">
@@ -263,7 +264,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kSv-Jw-Ryf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="904" y="88"/>
+            <point key="canvasLocation" x="917" y="78"/>
         </scene>
         <!--Reset Password View Controller-->
         <scene sceneID="jb5-qg-6wV">
@@ -614,6 +615,7 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="CreateAccountButtonAction:" destination="P5V-zJ-kQH" eventType="touchUpInside" id="OBq-el-rE9"/>
+                                                    <segue destination="O2v-iO-yP5" kind="presentation" identifier="goToCatalogFromSignUp" id="oBp-ui-mze"/>
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="pwm-Um-8s8" userLabel="Switch and errors stack">
@@ -816,6 +818,9 @@ Version anna test task 1.00</string>
             <point key="canvasLocation" x="-780" y="88"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="oBp-ui-mze"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>
         <namedColor name="main_dark_green">

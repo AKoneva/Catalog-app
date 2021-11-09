@@ -12,11 +12,11 @@ class CategoriesViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var refreshControl: UIRefreshControl!
-     
-    var data = ["full", "catefory 2","generic","catefory 4","width"]
+    private var refreshControl: UIRefreshControl!
+    var user: User?
+    private var data = ["full", "catefory 2","generic","catefory 4","width"]
     
-    var filteredData = [String]()
+    private var filteredData = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +30,7 @@ class CategoriesViewController: UIViewController {
         
         searchBar.delegate = self
         filteredData = data
+        print("## categori#",user)
     }
   
     func configureTableView() {
@@ -47,15 +48,16 @@ class CategoriesViewController: UIViewController {
        
     }
 
-    /*
-    // MARK: - Navigation
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+        let nextVC = segue.destination as! HomeViewController
+        nextVC.user = user
+        
     }
-    */
+  
 
 }
 extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {

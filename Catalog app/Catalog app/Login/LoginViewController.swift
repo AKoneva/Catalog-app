@@ -7,6 +7,7 @@
 
 import UIKit
 import NotificationCenter
+import CoreData
 
 class LoginViewController: UIViewController {
     
@@ -23,22 +24,19 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
     @IBOutlet weak var passwordValidationErrorsLabel: UILabel!
     
-    private var isAuthorized = false
-    
-//    private var allUsers: [User]?
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var currentUser : User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         configureView()
         configureKeyboard()
-//        fetchUsers()
-//        print(allUsers)
     }
     
     func configureView(){
         hideKeyboardWhenTappedAround()
-                
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
@@ -121,34 +119,49 @@ class LoginViewController: UIViewController {
         else {
             passwordValidationErrorsLabel.text = "Input email and password"
             passwordValidationErrorStack.isHidden = false
-            isAuthorized = false
         }
     }
     
     
     func Login(){
-        if emailTextField.text == "test@gmail.com" && passwordTextField.text == "1111" {
+        
+        fetchUser()
+        guard let  user = currentUser else {
+            passwordValidationErrorsLabel.text = "No such user found"
+            passwordValidationErrorStack.isHidden = false
+            return
+        }
+        
+        if user.password != "" && passwordTextField.text == user.password {
             passwordValidationErrorStack.isHidden = true
-            isAuthorized = true
-            goToMainScreen()
-           
+            //                goToMainScreen()
+            print("## logged user", currentUser)
+            performSegue(withIdentifier: "goToCatalog", sender: self)
         }
         else {
             passwordValidationErrorsLabel.text = "Wrong password or email"
             passwordValidationErrorStack.isHidden = false
         }
+        
     }
-    
-    
-   
-    func goToMainScreen() {
-        if isAuthorized == true {
-            let storyboard = UIStoryboard(name: "Catalog", bundle: nil)
-            let secondVC = storyboard.instantiateViewController(identifier: "tabBar")
-            self.navigationController?.pushViewController(secondVC, animated: true)
+//
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "goToCatalog" {
+//            let navigationController = segue.destination as! UINavigationController
+//            let tabBarController = navigationController.topViewController as! UITabBarController
+//            let destinationViewController = tabBarController.viewControllers![0] as! HomeViewController
+//            destinationViewController.user = currentUser
+//        }
+//        }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToCatalog" {
+            let navigationController = segue.destination as! UINavigationController
+            let tabBarController = navigationController.topViewController as! BaseTabBarController
+            tabBarController.user = currentUser
         }
+        }
+    
 
-    }
 }
 extension LoginViewController: UITextFieldDelegate {
     
@@ -167,19 +180,17 @@ extension LoginViewController: UITextFieldDelegate {
         
     }
 }
-//extension LoginViewController {
-//    func fetchUsers(){
-//        do{
-//            let request = User.fetchRequest() as NSFetchRequest<User>
-//            let objects = try context.fetch(fetchRequest)
-//        }
-//        catch{
-//
-//        }
-////
-////        DispatchQueue.main.async {
-////            self.tableView.reloadData()
-////        }
-//    }
-//
-//}
+extension LoginViewController {
+    func fetchUser(){
+        do{
+            let request = User.fetchRequest() as  NSFetchRequest<User>
+            let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text as! CVarArg)
+            request.predicate = filter
+            self.currentUser = try context.fetch(request).first ?? nil
+        }
+        catch {
+            
+        }
+    }
+    
+}
