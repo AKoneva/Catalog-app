@@ -23,13 +23,22 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
     @IBOutlet weak var passwordValidationErrorsLabel: UILabel!
     
-//    var isHidden = false
     private var isAuthorized = false
+    
+//    private var allUsers: [User]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        configureView()
+        configureKeyboard()
+//        fetchUsers()
+//        print(allUsers)
+    }
+    
+    func configureView(){
         hideKeyboardWhenTappedAround()
-        
-        
+                
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
@@ -38,14 +47,13 @@ class LoginViewController: UIViewController {
         
         loginButton.layer.cornerRadius = 6
         skipButton.layer.cornerRadius = 6
-//        skipButton.isHidden = isHidden
-        
-        
+    }
+    
+    func configureKeyboard(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
     
     @objc func keyboardWillShow(notification: NSNotification) {
         
@@ -159,14 +167,19 @@ extension LoginViewController: UITextFieldDelegate {
         
     }
 }
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
+//extension LoginViewController {
+//    func fetchUsers(){
+//        do{
+//            let request = User.fetchRequest() as NSFetchRequest<User>
+//            let objects = try context.fetch(fetchRequest)
+//        }
+//        catch{
+//
+//        }
+////
+////        DispatchQueue.main.async {
+////            self.tableView.reloadData()
+////        }
+//    }
+//
+//}
