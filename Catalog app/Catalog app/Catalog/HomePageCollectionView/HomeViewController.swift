@@ -53,7 +53,8 @@ class HomeViewController: UIViewController {
   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-            let nextViewController =  segue.destination as! DetailViewController
+        let nextViewController =  segue.destination as! DetailViewController
+            nextViewController.delegate = self
             nextViewController.user = self.user
         
     }
@@ -96,6 +97,13 @@ extension HomeViewController: UISearchBarDelegate {
         {
             self.searchBar.endEditing(true)
         }
+}
+extension HomeViewController: DetailsExerciseDelegate {
+    func detailsWillDisappear(user: User?) {
+        self.user = user
+    }
+    
+    
 }
 
 struct Product {

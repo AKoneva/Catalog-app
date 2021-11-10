@@ -14,6 +14,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordValidationErrorStack: UIStackView!
     @IBOutlet weak var emailValidationErrorStack: UIStackView!
     
+    @IBOutlet weak var orLabel: UILabel!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -26,6 +27,8 @@ class LoginViewController: UIViewController {
     
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var user: User?
+    var state: State = .login
+    var callback : ((User?) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +42,13 @@ class LoginViewController: UIViewController {
     //MARK:- Configuration
     
     func configureView(){
-        
+        if state == .login {
+            skipButton.layer.cornerRadius = 6
+        }
+        else {
+            skipButton.isHidden = true
+            orLabel.isHidden = true
+        }
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
@@ -47,7 +56,7 @@ class LoginViewController: UIViewController {
         passwordTextField.tag = 2
         
         loginButton.layer.cornerRadius = 6
-        skipButton.layer.cornerRadius = 6
+        
     }
     
     func configureKeyboard(){
@@ -174,14 +183,26 @@ class LoginViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToHomePage" {
-            if checkData() {
-                let navigationController = segue.destination as! UINavigationController
-                let tabBarController = navigationController.topViewController as! BaseTabBarController
-                tabBarController.user = self.user
+            if state == .login {
+                if checkData() {
+                    let navigationController = segue.destination as! UINavigationController
+                    let tabBarController = navigationController.topViewController as! BaseTabBarController
+                    tabBarController.user = self.user
+                }
+                else {
+                    return
+                }
             }
             else {
-                return
+                if checkData() {
+                    callback?(user)
+                    self.dismiss(animated: true)
+                }
+                else {
+                    return
+                }
             }
+            
         }
         
     }
@@ -227,4 +248,8 @@ extension LoginViewController {
             
         }
     }
+}
+enum State : String {
+    case login = "login"
+    case loginForFullAccsess = "loginForFullAccsess"
 }

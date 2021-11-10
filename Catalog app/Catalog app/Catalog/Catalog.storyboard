@@ -17,11 +17,11 @@
             <objects>
                 <viewController storyboardIdentifier="AddCommentPopupViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KAi-Qn-sXl" customClass="AddCommentPopupViewController" customModule="Catalog_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NnM-tN-bpi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k6G-Av-vCN">
-                                <rect key="frame" x="35" y="214.5" width="339" height="413"/>
+                                <rect key="frame" x="35" y="241.5" width="339" height="413"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-zI-kRv">
                                         <rect key="frame" x="12" y="12" width="315" height="389"/>
@@ -165,7 +165,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJe-SQ-GO1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3543" y="1256"/>
+            <point key="canvasLocation" x="-3504" y="1240"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="RR7-u3-rBd">
@@ -347,6 +347,7 @@
                                         </state>
                                         <connections>
                                             <action selector="addCommentButtonTapped:" destination="a7b-gZ-Hot" eventType="touchUpInside" id="aac-qE-u2v"/>
+                                            <segue destination="WOL-4m-Fz4" kind="show" identifier="showLogin" id="eLs-l4-VOh"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -382,6 +383,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0TM-AQ-lcc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2136.231884057971" y="1255.5803571428571"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="GbK-1r-Dqw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="WOL-4m-Fz4" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="adV-fK-dYG"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rBA-vf-EP7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2115" y="1679"/>
         </scene>
         <!--Item-->
         <scene sceneID="EwU-aw-dAN">
@@ -986,7 +997,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9VW-Nc-Jis" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3070" y="940"/>
+            <point key="canvasLocation" x="-3326" y="844"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="n5E-jN-wRM">
@@ -1137,7 +1148,6 @@
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="LoginButtonAction:" destination="wzZ-cP-50A" eventType="touchUpInside" id="anu-Tf-xbK"/>
-                                                            <segue destination="KAi-Qn-sXl" kind="show" id="vWK-cd-6h8"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pFM-E0-lSH">
@@ -1212,7 +1222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZBY-6U-TPu" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3148" y="528"/>
+            <point key="canvasLocation" x="-3184" y="454"/>
         </scene>
         <!--createAccount-->
         <scene sceneID="at3-qS-vnO">
@@ -1222,7 +1232,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Wc-j2-jld" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2786" y="940"/>
+            <point key="canvasLocation" x="-3041" y="844"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

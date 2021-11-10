@@ -6,7 +6,9 @@
 //
 
 import UIKit
-
+protocol DetailsExerciseDelegate {
+    func detailsWillDisappear(user: User?);
+}
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var addCommentButton: UIButton!
@@ -14,7 +16,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var buttonBackgroundView: UIView!
     
     var user: User?
-    
+    var delegate : DetailsExerciseDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -22,6 +24,16 @@ class DetailViewController: UIViewController {
         print("## detail userr", user)
     }
     
+    override func viewWillDisappear(_ animated : Bool) {
+           super.viewWillDisappear(animated)
+
+           // When you want to send data back to the caller
+           // call the method on the delegate
+           if let delegate = self.delegate {
+            delegate.detailsWillDisappear(user: user)
+           }
+       }
+   
     func configureView(){
         buttonBackgroundView.layer.cornerRadius = 8
         addCommentButton.layer.cornerRadius = 8
@@ -40,7 +52,7 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func addCommentButtonTapped(_ sender: Any) {
-        user != nil ? openPopUp() : showLogin()
+        user != nil ? openPopUp() : performSegue(withIdentifier: "showLogin", sender: self)
         
     }
     
@@ -53,11 +65,17 @@ class DetailViewController: UIViewController {
         
         present(secondVC, animated: true, completion: nil)
     }
-    func showLogin()  {
-        let storyboard = UIStoryboard(name: "Login", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "login")
 
-        present(secondVC, animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showLogin" {
+            let navigationController = segue.destination as! UINavigationController
+            let nextVC = navigationController.topViewController as! LoginViewController
+            nextVC.state = .loginForFullAccsess
+            nextVC.callback = { user in
+                print("## callback ", user)
+                self.user = user
+            }
+        }
     }
 }
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {

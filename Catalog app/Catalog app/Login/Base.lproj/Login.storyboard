@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="O9u-PX-VDh" userLabel="mail stack">
-                                <rect key="frame" x="57" y="158" width="300" height="580"/>
+                                <rect key="frame" x="57" y="163" width="300" height="570.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ZZ7-Ja-Mjx" userLabel="Logo stack">
                                         <rect key="frame" x="18" y="0.0" width="264" height="80"/>
@@ -40,7 +40,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="sau-00-f3P" userLabel="Text fields and buttons stack">
-                                        <rect key="frame" x="0.0" y="130" width="300" height="450"/>
+                                        <rect key="frame" x="0.0" y="130" width="300" height="440.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="1v9-ZO-Egp" userLabel="Logining stack">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="175"/>
@@ -179,7 +179,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="txP-ej-4hJ" userLabel="SignUp and skip login">
-                                                <rect key="frame" x="25" y="343" width="250" height="107"/>
+                                                <rect key="frame" x="25" y="343" width="250" height="97.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="e7l-Lt-eUl" userLabel="SignUp stack">
                                                         <rect key="frame" x="7" y="0.0" width="236" height="30"/>
@@ -201,14 +201,14 @@
                                                             </button>
                                                         </subviews>
                                                     </stackView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D05-Ai-qSO">
-                                                        <rect key="frame" x="110" y="32" width="30" height="30"/>
-                                                        <state key="normal" title="or">
-                                                            <color key="titleColor" name="main_light"/>
-                                                        </state>
-                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rtz-p3-2bn">
+                                                        <rect key="frame" x="117" y="32" width="16" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="textColor" name="main_light"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifs-aB-8Ma">
-                                                        <rect key="frame" x="0.0" y="64" width="250" height="43"/>
+                                                        <rect key="frame" x="0.0" y="54.5" width="250" height="43"/>
                                                         <color key="backgroundColor" name="main_light"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="43" id="kwM-Vi-8a3"/>
@@ -247,6 +247,7 @@
                         <outlet property="emailValidationErrorsLabel" destination="qg6-vW-7MG" id="bEf-8W-50W"/>
                         <outlet property="forgotPasswordButton" destination="Se9-c6-gpU" id="WI4-Qm-8yb"/>
                         <outlet property="loginButton" destination="lm3-oy-NTC" id="nXA-Xw-dhc"/>
+                        <outlet property="orLabel" destination="Rtz-p3-2bn" id="iSt-Nx-N8K"/>
                         <outlet property="passwordTextField" destination="otx-wO-zbn" id="xcL-1r-dpD"/>
                         <outlet property="passwordValidationErrorStack" destination="rRK-VB-Tpz" id="rZG-9t-yPG"/>
                         <outlet property="passwordValidationErrorsLabel" destination="fvJ-Fu-b1u" id="JAJ-lr-hKq"/>
@@ -821,7 +822,7 @@ Version anna test task 1.00</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oBp-ui-mze"/>
+        <segue reference="J3s-FQ-41g"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>
