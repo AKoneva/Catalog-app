@@ -822,7 +822,7 @@ Version anna test task 1.00</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="J3s-FQ-41g"/>
+        <segue reference="oBp-ui-mze"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>

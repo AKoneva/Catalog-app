@@ -11,7 +11,7 @@ class ProductTableViewCell: UITableViewCell {
 
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
-    @IBOutlet weak var discription: UILabel!
+    @IBOutlet weak var priductDescriptionLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         productImageView.layer.cornerRadius = 5
@@ -21,6 +21,11 @@ class ProductTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    func configureWithData(data: Products?) {
+        productNameLabel.text = data?.name
+        priductDescriptionLabel.text = data?.discription
+        productImageView.image = UIImage(named: data?.image ?? "")
     }
 
 }

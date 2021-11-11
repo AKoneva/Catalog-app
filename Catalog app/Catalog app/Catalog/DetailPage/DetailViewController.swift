@@ -17,6 +17,9 @@ class DetailViewController: UIViewController {
     
     var user: User?
     var delegate : DetailsExerciseDelegate?
+    var product: Products?
+    var commentsArray : [Comments?]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -26,9 +29,6 @@ class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated : Bool) {
            super.viewWillDisappear(animated)
-
-           // When you want to send data back to the caller
-           // call the method on the delegate
            if let delegate = self.delegate {
             delegate.detailsWillDisappear(user: user)
            }
@@ -43,6 +43,9 @@ class DetailViewController: UIViewController {
         addCommentButton.layer.shadowOpacity = 0.10
         addCommentButton.layer.shadowColor = UIColor.black.cgColor
         addCommentButton.layer.shadowOffset = CGSize(width: 0, height: 5)
+        
+        commentsArray = product?.comments?.toArray()
+      
     }
     
     func configureTableView(){
@@ -87,7 +90,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 5
+            return product?.comments?.count ?? 0
         default:
             return 1
         }
@@ -97,9 +100,12 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let productCell = tableView.dequeueReusableCell(withIdentifier: "productCell") as! ProductTableViewCell
+            productCell.configureWithData(data: product)
             return productCell
         case 1:
             let comments = tableView.dequeueReusableCell(withIdentifier: "comments") as! CommentTableViewCell
+            
+            comments.configureWithData(data: commentsArray?[indexPath.row] ?? Comments())
             return comments
         default:
             return UITableViewCell()

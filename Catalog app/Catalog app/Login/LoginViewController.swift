@@ -180,7 +180,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToHomePage" {
             if state == .login {
@@ -221,7 +220,6 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         switch textField.tag {
@@ -236,6 +234,7 @@ extension LoginViewController: UITextFieldDelegate {
         
     }
 }
+
 extension LoginViewController {
     func fetchUser(){
         do{
@@ -249,6 +248,7 @@ extension LoginViewController {
         }
     }
 }
+
 enum State : String {
     case login = "login"
     case loginForFullAccsess = "loginForFullAccsess"

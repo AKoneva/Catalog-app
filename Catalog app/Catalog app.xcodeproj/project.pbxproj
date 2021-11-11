@@ -23,8 +23,12 @@
 		FA42B2AD273438C600B0CD8A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42B2AC273438C600B0CD8A /* SignUpViewController.swift */; };
 		FA42B2B02734394A00B0CD8A /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42B2AF2734394A00B0CD8A /* ResetPasswordViewController.swift */; };
 		FA5BFE2D273AC1EE00E991DB /* BaseTabBarControlle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE2C273AC1EE00E991DB /* BaseTabBarControlle.swift */; };
-		FA5BFE48273ACEAE00E991DB /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE46273ACEAE00E991DB /* User+CoreDataClass.swift */; };
-		FA5BFE49273ACEAE00E991DB /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE47273ACEAE00E991DB /* User+CoreDataProperties.swift */; };
+		FA5BFE5E273D227000E991DB /* Products+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE58273D227000E991DB /* Products+CoreDataClass.swift */; };
+		FA5BFE5F273D227000E991DB /* Products+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE59273D227000E991DB /* Products+CoreDataProperties.swift */; };
+		FA5BFE60273D227000E991DB /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE5A273D227000E991DB /* User+CoreDataClass.swift */; };
+		FA5BFE61273D227000E991DB /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE5B273D227000E991DB /* User+CoreDataProperties.swift */; };
+		FA5BFE62273D227000E991DB /* Comments+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE5C273D227000E991DB /* Comments+CoreDataClass.swift */; };
+		FA5BFE63273D227000E991DB /* Comments+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5BFE5D273D227000E991DB /* Comments+CoreDataProperties.swift */; };
 		FA89B909273A70F300301A30 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA89B908273A70F300301A30 /* Extentions.swift */; };
 		FA97934127387BB3003C5F89 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA97934027387BB3003C5F89 /* Profile.storyboard */; };
 		FA97934227387DA0003C5F89 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF950C92735A2DC0077B17A /* ProfileViewController.swift */; };
@@ -53,8 +57,12 @@
 		FA42B2AC273438C600B0CD8A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FA42B2AF2734394A00B0CD8A /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		FA5BFE2C273AC1EE00E991DB /* BaseTabBarControlle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarControlle.swift; sourceTree = "<group>"; };
-		FA5BFE46273ACEAE00E991DB /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
-		FA5BFE47273ACEAE00E991DB /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FA5BFE58273D227000E991DB /* Products+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Products+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		FA5BFE59273D227000E991DB /* Products+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Products+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		FA5BFE5A273D227000E991DB /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		FA5BFE5B273D227000E991DB /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		FA5BFE5C273D227000E991DB /* Comments+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comments+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		FA5BFE5D273D227000E991DB /* Comments+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comments+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		FA89B908273A70F300301A30 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		FA97934027387BB3003C5F89 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		FA979346273929A8003C5F89 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
@@ -97,8 +105,6 @@
 		FA42B271273404CB00B0CD8A = {
 			isa = PBXGroup;
 			children = (
-				FA5BFE46273ACEAE00E991DB /* User+CoreDataClass.swift */,
-				FA5BFE47273ACEAE00E991DB /* User+CoreDataProperties.swift */,
 				FA42B27C273404CB00B0CD8A /* Catalog app */,
 				FA42B27B273404CB00B0CD8A /* Products */,
 			);
@@ -154,6 +160,12 @@
 		FA89B8EF273A608C00301A30 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				FA5BFE58273D227000E991DB /* Products+CoreDataClass.swift */,
+				FA5BFE59273D227000E991DB /* Products+CoreDataProperties.swift */,
+				FA5BFE5A273D227000E991DB /* User+CoreDataClass.swift */,
+				FA5BFE5B273D227000E991DB /* User+CoreDataProperties.swift */,
+				FA5BFE5C273D227000E991DB /* Comments+CoreDataClass.swift */,
+				FA5BFE5D273D227000E991DB /* Comments+CoreDataProperties.swift */,
 				FA42B286273404CB00B0CD8A /* CoreData.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -295,23 +307,27 @@
 				FA97934227387DA0003C5F89 /* ProfileViewController.swift in Sources */,
 				FAF950D02735A5DD0077B17A /* ProductTableViewCell.swift in Sources */,
 				FA0C6BAC2735692500B538EE /* DetailViewController.swift in Sources */,
-				FA5BFE48273ACEAE00E991DB /* User+CoreDataClass.swift in Sources */,
 				FA0C6BAF27356A8500B538EE /* HomeViewController.swift in Sources */,
 				FA0C6BB627356F9800B538EE /* ProductCollectionViewCell.swift in Sources */,
+				FA5BFE5F273D227000E991DB /* Products+CoreDataProperties.swift in Sources */,
+				FA5BFE5E273D227000E991DB /* Products+CoreDataClass.swift in Sources */,
 				FA42B282273404CB00B0CD8A /* LoginViewController.swift in Sources */,
 				FA0C6BBC2735903300B538EE /* CategoriesViewController.swift in Sources */,
 				FA42B27E273404CB00B0CD8A /* AppDelegate.swift in Sources */,
 				FA0C6BC02735931D00B538EE /* CategoryTableViewCell.swift in Sources */,
 				FA42B288273404CB00B0CD8A /* CoreData.xcdatamodeld in Sources */,
+				FA5BFE62273D227000E991DB /* Comments+CoreDataClass.swift in Sources */,
 				FA42B2B02734394A00B0CD8A /* ResetPasswordViewController.swift in Sources */,
 				FAF950D52735A6020077B17A /* CommentTableViewCell.swift in Sources */,
 				FA979347273929A8003C5F89 /* ChangePasswordViewController.swift in Sources */,
 				FA42B280273404CB00B0CD8A /* SceneDelegate.swift in Sources */,
 				FA89B909273A70F300301A30 /* Extentions.swift in Sources */,
 				FA5BFE2D273AC1EE00E991DB /* BaseTabBarControlle.swift in Sources */,
+				FA5BFE61273D227000E991DB /* User+CoreDataProperties.swift in Sources */,
 				FA9EB5142737EE4300AD2D2E /* AddCommentPopupViewController.swift in Sources */,
-				FA5BFE49273ACEAE00E991DB /* User+CoreDataProperties.swift in Sources */,
 				FA42B2AD273438C600B0CD8A /* SignUpViewController.swift in Sources */,
+				FA5BFE60273D227000E991DB /* User+CoreDataClass.swift in Sources */,
+				FA5BFE63273D227000E991DB /* Comments+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

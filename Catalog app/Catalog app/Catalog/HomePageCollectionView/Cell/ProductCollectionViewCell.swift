@@ -9,15 +9,16 @@ import UIKit
 
 class ProductCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var productDescription: UILabel!
+    @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var productDescriptionLabel: UILabel!
     @IBOutlet weak var stars: UIStackView!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
-            
+        
+        productImageView.layer.cornerRadius = 8
         contentView.layer.cornerRadius = 8
         contentView.layer.masksToBounds = true
         
@@ -42,4 +43,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
             cornerRadius: 8
         ).cgPath
     }
+    
+    func configureWithData(data: Products?) {
+        productNameLabel.text = data?.name
+        productDescriptionLabel.text = data?.discription
+        productImageView.image = UIImage(named: data?.image ?? "")
+    }
+    
 }
