@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "komplekt-postelnogo-belya-s-geometricheskim-printom-chernyy-s-serym-classic-dvuspalnyy-evro-57643-354600-538x538_.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -6,19 +6,25 @@
 //
 
 import UIKit
+import CoreData
+
 protocol DetailsExerciseDelegate {
     func detailsWillDisappear(user: User?);
 }
+
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var addCommentButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonBackgroundView: UIView!
     
+    var refreshControl: UIRefreshControl!
+    
     var user: User?
     var delegate : DetailsExerciseDelegate?
     var product: Products?
     var commentsArray : [Comments?]?
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +51,10 @@ class DetailViewController: UIViewController {
         addCommentButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         
         commentsArray = product?.comments?.toArray()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = #colorLiteral(red: 0.3182727098, green: 0.5263802409, blue: 0.4970731735, alpha: 1)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .allEvents)
       
     }
     
@@ -52,22 +62,21 @@ class DetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.refreshControl = refreshControl
+    }
+    
+    @objc func refresh(_ sender: Any) {
+        self.fetchProduct()
+        tableView.reloadData()
+        refreshControl.endRefreshing()
+        
     }
     
     @IBAction func addCommentButtonTapped(_ sender: Any) {
-        user != nil ? openPopUp() : performSegue(withIdentifier: "showLogin", sender: self)
+        user != nil ? performSegue(withIdentifier: "comment", sender: self) : performSegue(withIdentifier: "showLogin", sender: self)
         
     }
     
-    func openPopUp(){
-        let storyboard = UIStoryboard(name: "Catalog", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "AddCommentPopupViewController")
-        
-        secondVC.modalPresentationStyle = .overFullScreen
-        secondVC.modalTransitionStyle = .crossDissolve
-        
-        present(secondVC, animated: true, completion: nil)
-    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showLogin" {
@@ -77,6 +86,18 @@ class DetailViewController: UIViewController {
             nextVC.callback = { user in
                 print("## callback ", user)
                 self.user = user
+            }
+        }
+        if segue.identifier == "comment" {
+            let nextVC = segue.destination as! AddCommentPopupViewController
+            nextVC.product = self.product
+            nextVC.user = self.user
+            nextVC.callback = { comment in
+                self.product?.addToComments(comment)
+                self.commentsArray?.append(comment)
+                try! self.context.save()
+                self.fetchProduct()
+                self.tableView.reloadData()
             }
         }
     }
@@ -124,4 +145,17 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         return 80
     }
     
+}
+extension DetailViewController {
+    func fetchProduct(){
+        do{
+            let request = Products.fetchRequest() as  NSFetchRequest<Products>
+            let filter = NSPredicate(format:  "%K == %@", "id", product!.id! as CVarArg)
+            request.predicate = filter
+            self.product = try context.fetch(request).first ?? nil
+        }
+        catch {
+            
+        }
+    }
 }

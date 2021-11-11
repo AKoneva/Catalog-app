@@ -7,6 +7,7 @@
 
 import UIKit
 import NotificationCenter
+import CoreData
 
 class AddCommentPopupViewController: UIViewController {
 
@@ -17,7 +18,10 @@ class AddCommentPopupViewController: UIViewController {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var commentView: UIView!
     
-    private var productName = "Product Name"
+    var user: User?
+    var product: Products?
+    var callback : ((Comments) -> Void)?
+    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +30,7 @@ class AddCommentPopupViewController: UIViewController {
         commentView.layer.cornerRadius = 8
         cancelButton.layer.cornerRadius = 8
         doneButton.layer.cornerRadius = 8
-        ratingLabel.text = "Rate" + productName
+        ratingLabel.text = "Rate" + (product?.name)!
         
         commentTextView.delegate = self
         
@@ -57,6 +61,22 @@ class AddCommentPopupViewController: UIViewController {
         dismiss(animated: true)
     }
     @IBAction func doneButtonTapped(_ sender: Any) {
+        let newComment = Comments(context: context)
+        newComment.id = UUID()
+        newComment.rate = 5
+        newComment.time = Date()
+        newComment.user = user
+        newComment.productId = product?.id
+        newComment.comment = commentTextView.text
+        user?.commentsCount += 1
+        do {
+            try  context.save()
+        }
+        catch {
+            
+        }
+        callback?(newComment)
+        self.dismiss(animated: true)
     }
 
 }

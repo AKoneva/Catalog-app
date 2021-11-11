@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
     
     //MARK:- Configuration
     
-    func configureView(){
+    func configureView() {
         if state == .login {
             skipButton.layer.cornerRadius = 6
         }
@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
         
     }
     
-    func configureKeyboard(){
+    func configureKeyboard() {
         hideKeyboardWhenTappedAround()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -87,7 +87,7 @@ class LoginViewController: UIViewController {
             emailValidationErrorStack.isHidden = false
             return false
         }
-        if(enteredEmail != ""){
+        if(enteredEmail != "") {
             
             let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
@@ -201,9 +201,13 @@ class LoginViewController: UIViewController {
                     return
                 }
             }
-            
         }
-        
+        if segue.identifier == "goToSignUp" {
+            if state == .loginForFullAccsess {
+                let nextVC = segue.destination as! SignUpViewController
+                nextVC.state = .signUpForFullAccsess
+            }
+        }
     }
     
     func showAlert(title: String, text: String) {
@@ -236,7 +240,7 @@ extension LoginViewController: UITextFieldDelegate {
 }
 
 extension LoginViewController {
-    func fetchUser(){
+    func fetchUser() {
         do{
             let request = User.fetchRequest() as  NSFetchRequest<User>
             let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text!)

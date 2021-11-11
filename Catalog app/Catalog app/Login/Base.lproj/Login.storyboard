@@ -196,7 +196,7 @@
                                                                     <color key="titleColor" name="main_dark_green"/>
                                                                 </state>
                                                                 <connections>
-                                                                    <segue destination="P5V-zJ-kQH" kind="show" id="AGH-Za-PqS"/>
+                                                                    <segue destination="P5V-zJ-kQH" kind="show" identifier="goToSignUp" id="AGH-Za-PqS"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -822,7 +822,7 @@ Version anna test task 1.00</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oBp-ui-mze"/>
+        <segue reference="J3s-FQ-41g"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="exclamationmark.circle" catalog="system" width="128" height="121"/>

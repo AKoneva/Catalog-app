@@ -28,6 +28,8 @@ class SignUpViewController: UIViewController {
     
     private  var user = User()
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var state: SignUpState = .signUp
+    var callback : ((User?) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,6 +211,15 @@ class SignUpViewController: UIViewController {
             let tabBarController = navigationController.topViewController as! BaseTabBarController
             tabBarController.user = user
         }
+        else {
+            if checkData() {
+                callback?(user)
+                self.dismiss(animated: true)
+            }
+            else {
+                return
+            }
+        }
     }
     
     func showAlert(title: String, text: String) {
@@ -245,4 +256,8 @@ extension SignUpViewController: UITextFieldDelegate {
         }
     }
     
+}
+enum SignUpState : String {
+    case signUp = "SignUp"
+    case signUpForFullAccsess = "SignUpForFullAccsess"
 }
