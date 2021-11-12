@@ -18,29 +18,34 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonBackgroundView: UIView!
     
-    var refreshControl: UIRefreshControl!
+    
+    private var refreshControl: UIRefreshControl!
     
     var user: User?
     var delegate : DetailsExerciseDelegate?
     var product: Products?
     var commentsArray : [Comments?]?
-    let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureTableView()
-        print("## detail userr", user)
+        
     }
     
     override func viewWillDisappear(_ animated : Bool) {
-           super.viewWillDisappear(animated)
-           if let delegate = self.delegate {
+        super.viewWillDisappear(animated)
+        if let delegate = self.delegate {
             delegate.detailsWillDisappear(user: user)
-           }
-       }
-   
-    func configureView(){
+        }
+        
+    }
+    
+    
+    //MARK:- Configuration
+    
+    func configureView() {
         buttonBackgroundView.layer.cornerRadius = 8
         addCommentButton.layer.cornerRadius = 8
         
@@ -55,15 +60,19 @@ class DetailViewController: UIViewController {
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = #colorLiteral(red: 0.3182727098, green: 0.5263802409, blue: 0.4970731735, alpha: 1)
         refreshControl.addTarget(self, action: #selector(refresh), for: .allEvents)
-      
+        
     }
     
-    func configureTableView(){
+    func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.refreshControl = refreshControl
+        
     }
+    
+    
+    //MARK:- Buttons action
     
     @objc func refresh(_ sender: Any) {
         self.fetchProduct()
@@ -77,14 +86,15 @@ class DetailViewController: UIViewController {
         
     }
     
-
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showLogin" {
             let navigationController = segue.destination as! UINavigationController
             let nextVC = navigationController.topViewController as! LoginViewController
             nextVC.state = .loginForFullAccsess
             nextVC.callback = { user in
-                print("## callback ", user)
                 self.user = user
             }
         }
@@ -102,6 +112,10 @@ class DetailViewController: UIViewController {
         }
     }
 }
+
+
+//MARK:- Extensions
+
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -138,6 +152,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         view.backgroundColor = .clear
         return view
     }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
             return 0
@@ -146,6 +161,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
+
 extension DetailViewController {
     func fetchProduct(){
         do{

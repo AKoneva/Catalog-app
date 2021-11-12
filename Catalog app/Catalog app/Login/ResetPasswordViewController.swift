@@ -42,7 +42,6 @@ class ResetPasswordViewController: UIViewController {
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
             
             if(emailPredicate.evaluate(with: enteredEmail)) {
-                emailValidationErrorStack.isHidden = true
                 return true
             }
             else {
@@ -74,7 +73,7 @@ class ResetPasswordViewController: UIViewController {
                 showErrorAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
             }
             showAlert(title: "Successfully", text:  "We send you email with your new password. You can change it in your personal cabinet (this is stub, password is \"1111\")")
-          
+            
         }
         else {
             showErrorAlert(title: "Warning", text: "Please, check your email. No such user was found")
@@ -102,7 +101,10 @@ class ResetPasswordViewController: UIViewController {
 extension ResetPasswordViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        validateEmail(enteredEmail: userEmailTextField.text)
+        if validateEmail(enteredEmail: userEmailTextField.text) {
+            emailValidationErrorStack.isHidden = true
+
+        }
         
     }
 }

@@ -93,15 +93,12 @@ class LoginViewController: UIViewController {
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
             
             if(emailPredicate.evaluate(with: enteredEmail)) {
-                emailValidationErrorStack.isHidden = true
                 return true
-            }
-            else {
+            } else {
                 emailValidationErrorsLabel.text = "Incorrect e-mail. Please, try again"
                 emailValidationErrorStack.isHidden = false
             }
-        }
-        else {
+        } else {
             emailValidationErrorsLabel.text = "Please, input your e-mail"
             emailValidationErrorStack.isHidden = false
             return false
@@ -121,15 +118,14 @@ class LoginViewController: UIViewController {
             passwordValidationErrorStack.isHidden = false
             return false
         }
-        passwordValidationErrorStack.isHidden = true
         return true
     }
     
     func checkData() -> Bool {
-        guard let email = emailTextField.text else {
+        guard emailTextField.text != nil else {
             return false
         }
-        guard let password = passwordTextField.text else {
+        guard passwordTextField.text != nil else {
             return false
         }
         if emailValidationErrorStack.isHidden == false || passwordValidationErrorStack.isHidden == false  {
@@ -180,6 +176,15 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToHomePage" {
             if state == .login {
@@ -210,14 +215,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func showAlert(title: String, text: String) {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
 }
-
 
 
 //MARK:- Extensions
@@ -229,10 +227,14 @@ extension LoginViewController: UITextFieldDelegate {
         switch textField.tag {
         
         case 1:
-            validateEmail(enteredEmail:  emailTextField.text)
+            if validateEmail(enteredEmail:  emailTextField.text) {
+                    emailValidationErrorStack.isHidden = true
+            }
         case 2:
-            validatePassword(enteredPassword: passwordTextField.text)
-            
+            if validatePassword(enteredPassword: passwordTextField.text) {
+                passwordValidationErrorStack.isHidden = true
+                
+            }
         default: break
         }
         

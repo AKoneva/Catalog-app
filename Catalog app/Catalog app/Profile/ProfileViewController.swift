@@ -33,21 +33,18 @@ class ProfileViewController: UIViewController{
     private var imagePicker = UIImagePickerController()
     var user: User?
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        print("##", user)
         configureView()
+        configureKeyboard()
+        
     }
     
-    func configureView(){
-        
-
+    
+    //MARK:- Configuration
+    
+    func configureView() {
         logOutButton.layer.cornerRadius = 5
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width/2
         avatarImageView.layer.borderWidth = 5
@@ -78,47 +75,17 @@ class ProfileViewController: UIViewController{
             editeProfileButton.isHidden = true
             logOutButton.setTitle("Log in", for: .normal)
         }
-    }
-    
-    
-    @IBAction func editProfileButtonTapped(_ sender: Any) {
-        editNameTextField.text = nameLabel.text
-        editEmailTextField.text = emailLabel.text
-        editView.isHidden = false
-    }
-    
-    @IBAction func saveButtonTapped(_ sender: Any) {
-        if checkData() {
-            user?.name = editNameTextField.text
-            user?.email = editEmailTextField.text
-            user?.image = avatarImageView.image!.jpegData(compressionQuality: 1.0)
-
-            do {
-                try context.save()
-            }
-            catch {
-                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
-            }
-            editView.isHidden = true
-        }
-        
         
     }
     
-    @IBAction func editPhotoButtonTapped(_ sender: Any) {
-        openImagePicker()
+    func configureKeyboard() {
+        hideKeyboardWhenTappedAround()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
-    
-    @IBAction func logoutButtonTapped(_ sender: Any) {
-        user = nil
-    }
-    
-    func showAlert(title: String, text: String) {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         self.view.frame.origin.y = 0 - 150
     }
@@ -126,6 +93,9 @@ class ProfileViewController: UIViewController{
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = 0
     }
+    
+    
+    //MARK:- Validation
     
     func validateEmail(enteredEmail: String?) -> Bool {
         guard enteredEmail != nil   else {
@@ -153,6 +123,7 @@ class ProfileViewController: UIViewController{
             return false
         }
         return false
+        
     }
     
     func validateName(name: String?) -> Bool {
@@ -162,8 +133,8 @@ class ProfileViewController: UIViewController{
             return false
         }
         if name!.count  > 2 {
-            nameValidationErrorStack.isHidden = true
             return true
+            
         } else {
             nameValidationErrorsLabel.text = "Input full name,please"
             nameValidationErrorStack.isHidden = false
@@ -171,6 +142,7 @@ class ProfileViewController: UIViewController{
         }
         
     }
+    
     func checkData() -> Bool {
         if nameValidationErrorStack.isHidden == true && emailValidationErrorStack.isHidden == true  {
             if !(editNameTextField.text?.isEmpty ?? true) && !(editEmailTextField.text?.isEmpty ?? true) {
@@ -189,34 +161,86 @@ class ProfileViewController: UIViewController{
         return false
     }
     
+    
+    //MARK:- Buttons action
+    
+    @IBAction func editProfileButtonTapped(_ sender: Any) {
+        editNameTextField.text = nameLabel.text
+        editEmailTextField.text = emailLabel.text
+        editView.isHidden = false
+    }
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        if checkData() {
+            user?.name = editNameTextField.text
+            user?.email = editEmailTextField.text
+            user?.image = avatarImageView.image!.jpegData(compressionQuality: 1.0)
+            
+            do {
+                try context.save()
+            }
+            catch {
+                showAlert(title: "Warning", text: "Can`t save data. Please, try again later. ")
+            }
+            editView.isHidden = true
+        }
+        
+    }
+    
+    @IBAction func editPhotoButtonTapped(_ sender: Any) {
+        openImagePicker()
+    }
+    
+    @IBAction func logoutButtonTapped(_ sender: Any) {
+        user = nil
+    }
+    
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changePassword" {
             let nextVC = segue.destination as! ChangePasswordViewController
-                nextVC.user = user
+            nextVC.user = user
             
         }
     }
     
 }
 
+
+//MARK:- Extensions
+
 extension ProfileViewController: UITextFieldDelegate {
-    
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         switch textField.tag {
-        
         case 1:
-            validateName(name: editNameTextField.text)
+            if validateName(name: editNameTextField.text) {
+                nameValidationErrorStack.isHidden = true
+
+            }
         case 2:
-            validateEmail(enteredEmail:  editEmailTextField.text)
-            
+            if validateEmail(enteredEmail:  editEmailTextField.text) {
+                emailValidationErrorStack.isHidden = true
+
+            }
         default: break
+            
         }
-        
     }
+    
 }
+
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+    
     func openImagePicker() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
@@ -229,7 +253,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         if let img = info[.originalImage] as? UIImage {
             avatarImageView.image = img
             self.dismiss(animated: true)
+        }
     }
     
-}
 }

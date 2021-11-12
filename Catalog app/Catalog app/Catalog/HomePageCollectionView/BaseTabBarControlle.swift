@@ -9,9 +9,8 @@ import Foundation
 import UIKit
 
 class BaseTabBarController: UITabBarController {
-
+    
     var user: User?
-   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +26,7 @@ class BaseTabBarController: UITabBarController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         let first = self.viewControllers![0] as! HomeViewController
         let second = self.viewControllers![1] as! CategoriesViewController
         let third = self.viewControllers![2] as! ProfileViewController
@@ -36,5 +35,5 @@ class BaseTabBarController: UITabBarController {
         second.user = user
         third.user = user
         
-        }
+    }
 }

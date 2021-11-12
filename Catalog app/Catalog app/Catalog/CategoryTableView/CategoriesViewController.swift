@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 class CategoriesViewController: UIViewController {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,20 +26,24 @@ class CategoriesViewController: UIViewController {
         hideKeyboardWhenTappedAround()
         configureTableView()
         
-        print("## categori#",user)
     }
-    func configureView(){
-        
+    
+    
+    //MARK:- Configuration
+    
+    func configureView() {
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = #colorLiteral(red: 0.3182727098, green: 0.5263802409, blue: 0.4970731735, alpha: 1)
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-                
+        
         searchBar.delegate = self
         
         fetchProductsWithCategories()
         cateroryArray = Array(getCategoies())
         filteredData = cateroryArray
+        
     }
+    
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -49,13 +53,16 @@ class CategoriesViewController: UIViewController {
         tableView.refreshControl = refreshControl
     }
     
-    @objc func refresh(_ sender: Any) {
     
+    //MARK:- logic methods
+    
+    @objc func refresh(_ sender: Any) {
+        
         tableView.reloadData()
         refreshControl.endRefreshing()
-       
+        
     }
-
+    
     func getCategoies() -> Set<String>{
         for product in data! {
             cateroryArray.append(product.category!)
@@ -63,24 +70,25 @@ class CategoriesViewController: UIViewController {
         print(cateroryArray)
         return Set(cateroryArray)
     }
-
-  
+    
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? CategoryTableViewCell {
             let indexPath = cell.tag
-            if let nextViewController = segue.destination as? HomeViewController {
                 let nextVC = segue.destination as! HomeViewController
                 nextVC.user = user
                 nextVC.state = .categoryProducts
                 nextVC.currentCategory = filteredData[indexPath]
             }
         }
-        
-        
-    }
-  
-
+    
 }
+
+
+//MARK:- Extensions
+
 extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredData.count
@@ -103,16 +111,17 @@ extension CategoriesViewController: UISearchBarDelegate {
         filteredData = searchText.isEmpty ? cateroryArray : cateroryArray.filter { $0.lowercased().contains(searchText.lowercased())  }
         tableView.reloadData()
     }
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-        {
-            self.searchBar.endEditing(true)
-        }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.endEditing(true)
+    }
+    
 }
+
 extension CategoriesViewController {
     func fetchProductsWithCategories(){
-        do{
+        do {
             let request = Products.fetchRequest() as  NSFetchRequest<Products>
-            
             self.data = try context.fetch(request)
         }
         catch {

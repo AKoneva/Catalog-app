@@ -4,8 +4,9 @@
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="productId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="rate" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rate" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="products" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Products" inverseName="comments" inverseEntity="Products"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="comments" inverseEntity="User"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES">
@@ -14,8 +15,8 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comments"/>
+        <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comments" inverseName="products" inverseEntity="Comments"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="commentsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -27,7 +28,7 @@
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comments" inverseName="user" inverseEntity="Comments"/>
     </entity>
     <elements>
-        <element name="Comments" positionX="-27" positionY="18" width="128" height="133"/>
+        <element name="Comments" positionX="-27" positionY="18" width="128" height="148"/>
         <element name="Products" positionX="18" positionY="63" width="128" height="148"/>
         <element name="User" positionX="18" positionY="108" width="128" height="148"/>
     </elements>

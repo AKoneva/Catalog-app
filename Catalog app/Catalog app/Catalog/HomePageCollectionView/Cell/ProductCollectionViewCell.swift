@@ -6,28 +6,24 @@
 //
 
 import UIKit
-
+import Cosmos
 class ProductCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var ratingControl: CosmosView!
     @IBOutlet weak var productDescriptionLabel: UILabel!
-    @IBOutlet weak var stars: UIStackView!
     
+    private var rating = 0.0
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         productImageView.layer.cornerRadius = 8
         contentView.layer.cornerRadius = 8
         contentView.layer.masksToBounds = true
         
-        // Set masks to bounds to false to avoid the shadow
-        // from being clipped to the corner radius
         layer.cornerRadius = 8
         layer.masksToBounds = false
-        
-        // Apply a shadow
         layer.shadowRadius = 8.0
         layer.shadowOpacity = 0.10
         layer.shadowColor = UIColor.black.cgColor
@@ -36,8 +32,6 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        // Improve scrolling performance with an explicit shadowPath
         layer.shadowPath = UIBezierPath(
             roundedRect: bounds,
             cornerRadius: 8
@@ -48,6 +42,23 @@ class ProductCollectionViewCell: UICollectionViewCell {
         productNameLabel.text = data?.name
         productDescriptionLabel.text = data?.discription
         productImageView.image = UIImage(named: data?.image ?? "")
+        ratingControl.rating = getRating(data: data)
+        
+    }
+    
+    func getRating(data: Products?) -> Double {
+        let comments: [Comments] = data?.comments?.allObjects as! [Comments]
+        print(comments)
+        if !comments.isEmpty {
+            for comment in comments {
+                rating = rating + comment.rate
+            }
+            let result = rating/Double(comments.count)
+            rating = 0
+            return result
+        } else {
+            return 0
+        }
     }
     
 }

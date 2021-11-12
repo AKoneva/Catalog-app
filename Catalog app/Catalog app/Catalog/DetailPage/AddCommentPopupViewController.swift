@@ -8,11 +8,12 @@
 import UIKit
 import NotificationCenter
 import CoreData
+import Cosmos
 
 class AddCommentPopupViewController: UIViewController {
-
+    
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var rateControl: UIStackView!
+    @IBOutlet weak var ratingControl: CosmosView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
@@ -25,8 +26,14 @@ class AddCommentPopupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hideKeyboardWhenTappedAround()
-        
+        configureView()
+        configureKeyboard()
+    }
+    
+    
+    //MARK:- Configuration
+    
+    func configureView() {
         commentView.layer.cornerRadius = 8
         cancelButton.layer.cornerRadius = 8
         doneButton.layer.cornerRadius = 8
@@ -43,31 +50,42 @@ class AddCommentPopupViewController: UIViewController {
         commentTextView.layer.shadowColor = UIColor.black.cgColor
         commentTextView.layer.shadowOffset = CGSize(width: 0, height: 5)
         
-        
+    }
+    
+    func configureKeyboard() {
+        hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-       self.view.frame.origin.y = 0 - 150
+        self.view.frame.origin.y = 0 - 150
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = 0
     }
-
+    
+    
+    //MARK:- Buttons action
+    
     @IBAction func cancelButtonTapped(_ sender: Any) {
         dismiss(animated: true)
     }
     @IBAction func doneButtonTapped(_ sender: Any) {
         let newComment = Comments(context: context)
         newComment.id = UUID()
-        newComment.rate = 5
+        newComment.rate = ratingControl.rating
         newComment.time = Date()
         newComment.user = user
         newComment.productId = product?.id
-        newComment.comment = commentTextView.text
+        if commentTextView.text == "Input your comment here" {
+            newComment.comment = ""
+            
+        } else {
+            newComment.comment = commentTextView.text
+        }
         user?.commentsCount += 1
         do {
             try  context.save()
@@ -78,8 +96,12 @@ class AddCommentPopupViewController: UIViewController {
         callback?(newComment)
         self.dismiss(animated: true)
     }
-
+    
 }
+
+
+//MARK:- Extensions
+
 extension AddCommentPopupViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -94,7 +116,6 @@ extension AddCommentPopupViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
-    
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {

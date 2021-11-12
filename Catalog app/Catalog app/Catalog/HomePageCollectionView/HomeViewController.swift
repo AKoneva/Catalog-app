@@ -25,14 +25,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureView()
         configureKeyboard()
-       
-        print("## home userr", user)
-        print("## data count", filteredData?.count)
         
     }
+    
+    
+    //MARK:- Configuration
+    
     func configureView(){
         
         collectionView.delegate = self
@@ -44,16 +44,14 @@ class HomeViewController: UIViewController {
         collectionView.refreshControl = refreshControl
         
         searchBar.delegate = self
-       
+        
         if state == .categoryProducts {
             fetchCategoryProducts()
-        }
-        else{
+        } else {
             fetchProducts()
             addProducts()
         }
         filteredData = data
-
     }
     
     func configureKeyboard() {
@@ -62,8 +60,11 @@ class HomeViewController: UIViewController {
         
     }
     
+    
+    //MARK:- Add products
+    
     func addProducts() {
-        if data?.count ?? 0 < 1{
+        if data?.count ?? 0 < 1 || data == nil {
             let kidsProduct = Products(context: context)
             kidsProduct.category = "Kids"
             kidsProduct.discription = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Material: cotton, size: 150x210"
@@ -178,6 +179,9 @@ class HomeViewController: UIViewController {
         
     }
     
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDetail" {
             if let cell = sender as? ProductCollectionViewCell {
@@ -192,11 +196,16 @@ class HomeViewController: UIViewController {
     }
     
 }
+
+
+//MARK:- Extension
+
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredData?.count ?? 0
     }
@@ -207,7 +216,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.tag = indexPath.row
         
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -219,29 +227,40 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let widthPerItem = (view.frame.width  - spacing * 2)/2
         return CGSize(width: widthPerItem, height: 300)
     }
-   
+    
 }
+
 extension HomeViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredData = searchText.isEmpty ? data : data?.filter { $0.name!.lowercased().contains(searchText.lowercased())  || $0.discription!.lowercased().contains(searchText.lowercased())  }
         collectionView.reloadData()
     }
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-    {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.endEditing(true)
     }
+    
 }
 
 extension HomeViewController: DetailsExerciseDelegate {
+    
     func detailsWillDisappear(user: User?) {
         self.user = user
+        if state == .categoryProducts {
+            fetchCategoryProducts()
+        } else {
+            fetchProducts()
+        }
+        filteredData = data
+        refresh(self)
     }
     
 }
 
 extension HomeViewController {
-    func fetchProducts(){
-        do{
+    func fetchProducts() {
+        do {
             let request = Products.fetchRequest() as  NSFetchRequest<Products>
             self.data = try context.fetch(request)
         }
@@ -249,8 +268,8 @@ extension HomeViewController {
             
         }
     }
-    func fetchCategoryProducts(){
-        do{
+    func fetchCategoryProducts() {
+        do {
             let request = Products.fetchRequest() as  NSFetchRequest<Products>
             let filter = NSPredicate(format: "category CONTAINS %@", currentCategory)
             request.predicate = filter
@@ -261,6 +280,7 @@ extension HomeViewController {
         }
     }
 }
+
 enum HomeState : String {
     case products = "products"
     case categoryProducts = "categoryProducts"

@@ -7,6 +7,7 @@
 
 import UIKit
 import NotificationCenter
+import CoreData
 
 class SignUpViewController: UIViewController {
     
@@ -26,10 +27,11 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var emailValidationErrorsLabel: UILabel!
     @IBOutlet weak var switchErrorsLabel: UILabel!
     
-    private  var user = User()
+    
     let context =  (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var state: SignUpState = .signUp
     var callback : ((User?) -> Void)?
+    private var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +76,8 @@ class SignUpViewController: UIViewController {
     //MARK:- Validation
     
     func validateEmail(enteredEmail: String?) -> Bool {
+        fetchUser()
+        
         guard enteredEmail != nil else {
             emailValidationErrorsLabel.text = "Please, input your e-mail"
             emailValidationErrorStack.isHidden = false
@@ -84,20 +88,24 @@ class SignUpViewController: UIViewController {
             let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
             
-            if(emailPredicate.evaluate(with: enteredEmail)) {
-                return true
+            if user != nil {
+                emailValidationErrorsLabel.text = "This email is busy already"
+                emailValidationErrorStack.isHidden = false
+                return false
             }
-            else {
+            
+            if(emailPredicate.evaluate(with: enteredEmail))  {
+                return true
+            } else {
                 emailValidationErrorsLabel.text = "Incorrect e-mail. Please, try again"
                 emailValidationErrorStack.isHidden = false
+                return false
             }
-        }
-        else {
+        } else {
             emailValidationErrorsLabel.text = "Please, input your e-mail"
             emailValidationErrorStack.isHidden = false
             return false
         }
-        return false
     }
     
     func validatePassword(enteredPassword: String?) -> Bool {
@@ -205,6 +213,15 @@ class SignUpViewController: UIViewController {
         
     }
     
+    func showAlert(title: String, text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    
+    //MARK:- Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToCatalogFromSignUp" {
             let navigationController = segue.destination as! UINavigationController
@@ -221,14 +238,7 @@ class SignUpViewController: UIViewController {
             }
         }
     }
-    
-    func showAlert(title: String, text: String) {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    
+  
 }
 
 
@@ -257,6 +267,21 @@ extension SignUpViewController: UITextFieldDelegate {
     }
     
 }
+
+extension SignUpViewController {
+    func fetchUser() {
+        do{
+            let request = User.fetchRequest() as  NSFetchRequest<User>
+            let filter = NSPredicate(format: "email CONTAINS %@", emailTextField.text!)
+            request.predicate = filter
+            self.user = try context.fetch(request).first ?? nil
+        }
+        catch {
+            
+        }
+    }
+}
+
 enum SignUpState : String {
     case signUp = "SignUp"
     case signUpForFullAccsess = "SignUpForFullAccsess"
